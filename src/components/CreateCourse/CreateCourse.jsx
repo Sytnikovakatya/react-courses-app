@@ -19,8 +19,13 @@ import { mockedAuthorsList } from '../../helpers/mockedData';
 const CreateCourse = ({ onClick }) => {
 	const [inputText, setInputText] = useState('');
 	const [characterLimit] = useState(2);
-	const handleChange = (event) => {
-		setInputText(event.target.value);
+	const [inputTitle, setInputTitle] = useState('');
+
+	const changeHandler = (e) => {
+		const value = e.target.value;
+		e.target.value = value.replace(/\D/, '');
+		let v = '5yyy2';
+		console.log(v.replace('5', '1'));
 	};
 
 	const submitCourse = () => {
@@ -42,6 +47,9 @@ const CreateCourse = ({ onClick }) => {
 									labelText='text'
 									nameInput='Title'
 									id='title'
+									value={inputTitle}
+									onChange={(e) => setInputTitle(e.target.value)}
+									isInvalid={inputTitle.length < characterLimit}
 								/>
 							</InputGroup>
 						</Col>
@@ -64,7 +72,7 @@ const CreateCourse = ({ onClick }) => {
 								<Form.Control
 									as='textarea'
 									value={inputText}
-									onChange={handleChange}
+									onChange={(e) => setInputText(e.target.value)}
 									isInvalid={inputText.length < characterLimit}
 									placeholder='Enter description'
 									style={{ height: '100px' }}
@@ -112,6 +120,7 @@ const CreateCourse = ({ onClick }) => {
 									labelText='text'
 									nameInput='Duration'
 									id='duration'
+									onInput={changeHandler}
 								/>
 							</InputGroup>
 

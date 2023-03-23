@@ -7,7 +7,8 @@ export default function Input({
 	onChange,
 	nameInput,
 	id,
-	register,
+	isInvalid,
+	onInput,
 }) {
 	return (
 		<>
@@ -17,7 +18,8 @@ export default function Input({
 				onChange={onChange}
 				name={nameInput}
 				id={id}
-				register={register}
+				isInvalid={isInvalid}
+				onInput={onInput}
 			/>
 		</>
 	);
