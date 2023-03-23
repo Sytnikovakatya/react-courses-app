@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import CourseContext from '../../helpers/courseContext';
 
 import CourseCard from './components/CourseCard/CourseCard';
 import { mockedCoursesList } from './components/CourseCard/mockedData';
@@ -7,6 +6,23 @@ import SearchBar from './components/SearchBar/SearchBar';
 
 const Courses = () => {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
+	const [searchInput, setSearchInput] = useState('');
+
+	const searchItems = (event) => {
+		event.preventDefault();
+		let searchValue = event.target.value;
+		setSearchInput(searchValue);
+		if (searchValue === '') {
+			setCourseList(mockedCoursesList);
+		}
+	};
+
+	const handleSubmit = (event) => {
+		event.preventDefault();
+
+		filteredResult(searchInput);
+	};
+
 	const filteredResult = (searchInput) => {
 		const filteredData = mockedCoursesList.filter((item) => {
 			return Object.values(item)
@@ -30,11 +46,12 @@ const Courses = () => {
 			</section>
 		);
 	};
+
 	return (
-		<CourseContext.Provider value={{ filteredResult }}>
-			<SearchBar />
+		<>
+			<SearchBar onChange={searchItems} onSubmit={handleSubmit} />
 			<List />
-		</CourseContext.Provider>
+		</>
 	);
 };
 
