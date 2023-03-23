@@ -1,0 +1,13 @@
+.authors-list {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    padding: 1rem;
+}
+
+.create-course {
+    border: 1px lightgrey solid;
+    border-radius: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 1.5rem;
+}
