@@ -3,10 +3,20 @@ import React, { useState } from 'react';
 import CourseCard from './components/CourseCard/CourseCard';
 import { mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
+import CreateCourse from '../CreateCourse/CreateCourse';
 
 const Courses = () => {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
 	const [searchInput, setSearchInput] = useState('');
+	const [active, setActive] = useState('List');
+
+	const createCourse = () => {
+		setActive('CreateCourse');
+	};
+
+	const closeCreateModal = () => {
+		setActive('List');
+	};
 
 	const searchItems = (event) => {
 		event.preventDefault();
@@ -19,7 +29,6 @@ const Courses = () => {
 
 	const handleSubmit = (event) => {
 		event.preventDefault();
-
 		filteredResult(searchInput);
 	};
 
@@ -49,8 +58,21 @@ const Courses = () => {
 
 	return (
 		<>
-			<SearchBar onChange={searchItems} onSubmit={handleSubmit} />
-			<List />
+			<div>
+				{active === 'List' && (
+					<>
+						<SearchBar
+							onChange={searchItems}
+							onSubmit={handleSubmit}
+							onClick={createCourse}
+						/>
+						<List />
+					</>
+				)}
+				{active === 'CreateCourse' && (
+					<CreateCourse onClick={closeCreateModal} />
+				)}
+			</div>
 		</>
 	);
 };

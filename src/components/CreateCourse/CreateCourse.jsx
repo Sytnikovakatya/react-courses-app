@@ -14,7 +14,7 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-const CreateCourse = () => {
+const CreateCourse = ({ onClick }) => {
 	const [inputText, setInputText] = useState('');
 	const [characterLimit] = useState(2);
 	const handleChange = (event) => {
@@ -38,7 +38,7 @@ const CreateCourse = () => {
 						</Col>
 						<Col md={{ span: 3, offset: 4 }}>
 							<Button text='Create course' type='submit' />
-							<Button text='Close' type='submit' />
+							<Button text='Close' type='submit' onClick={onClick} />
 						</Col>
 					</Row>
 					<Row>
