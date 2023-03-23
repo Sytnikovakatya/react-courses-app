@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './CreateCourse.css';
 
 import Input from '../../common/Input/Input';
@@ -15,6 +15,11 @@ import {
 } from 'react-bootstrap';
 
 const CreateCourse = () => {
+	const [inputText, setInputText] = useState('');
+	const [characterLimit] = useState(2);
+	const handleChange = (event) => {
+		setInputText(event.target.value);
+	};
 	return (
 		<>
 			<Container className='create-course shadow'>
@@ -45,6 +50,9 @@ const CreateCourse = () => {
 							>
 								<Form.Control
 									as='textarea'
+									value={inputText}
+									onChange={handleChange}
+									isInvalid={inputText.length < characterLimit}
 									placeholder='Enter description'
 									style={{ height: '100px' }}
 								/>
