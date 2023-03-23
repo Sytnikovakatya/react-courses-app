@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import './CreateCourse.css';
 
 import Input from '../../common/Input/Input';
@@ -13,6 +14,7 @@ import {
 	InputGroup,
 	ListGroup,
 } from 'react-bootstrap';
+import { mockedAuthorsList } from '../../helpers/mockedData';
 
 const CreateCourse = ({ onClick }) => {
 	const [inputText, setInputText] = useState('');
@@ -20,6 +22,13 @@ const CreateCourse = ({ onClick }) => {
 	const handleChange = (event) => {
 		setInputText(event.target.value);
 	};
+
+	const submitCourse = () => {
+		if (inputText < characterLimit) {
+			alert('Please, fill in all fields');
+		}
+	};
+
 	return (
 		<>
 			<Container className='create-course shadow'>
@@ -30,14 +39,18 @@ const CreateCourse = ({ onClick }) => {
 							<InputGroup className='mb-3'>
 								<Input
 									placeholder='Enter title'
-									type='text'
-									name='Title'
+									labelText='text'
+									nameInput='Title'
 									id='title'
 								/>
 							</InputGroup>
 						</Col>
 						<Col md={{ span: 3, offset: 4 }}>
-							<Button text='Create course' type='submit' />
+							<Button
+								text='Create course'
+								type='submit'
+								onClick={submitCourse}
+							/>
 							<Button text='Close' type='submit' onClick={onClick} />
 						</Col>
 					</Row>
@@ -68,8 +81,8 @@ const CreateCourse = ({ onClick }) => {
 							<InputGroup className='mb-3'>
 								<Input
 									placeholder='Enter author name...'
-									type='text'
-									name='Author name'
+									labelText='text'
+									nameInput='Author name'
 									id='name'
 								/>
 							</InputGroup>
@@ -78,22 +91,14 @@ const CreateCourse = ({ onClick }) => {
 						<Col>
 							<h2 className='text-center'>Authors</h2>
 							<ListGroup>
-								<ListGroup.Item className='authors-list'>
-									<div className='fw-bold'>Vasiliy Dobkin</div>{' '}
-									<Button text='Add author' type='submit' />
-								</ListGroup.Item>
-								<ListGroup.Item className='authors-list '>
-									<div className='fw-bold'>Nikolas Kim</div>{' '}
-									<Button text='Add author' type='submit' />
-								</ListGroup.Item>
-								<ListGroup.Item className='authors-list '>
-									<div className='fw-bold'>Ann Sidorenko</div>{' '}
-									<Button text='Add author' type='submit' />
-								</ListGroup.Item>
-								<ListGroup.Item className='authors-list'>
-									<div className='fw-bold'>Valentina Larina</div>{' '}
-									<Button text='Add author' type='submit' />
-								</ListGroup.Item>
+								{mockedAuthorsList.map((author) => {
+									return (
+										<ListGroup.Item key={author.id} className='authors-list'>
+											<div className='fw-bold'>{author.name}</div>
+											<Button text='Add author' type='submit' />
+										</ListGroup.Item>
+									);
+								})}
 							</ListGroup>
 						</Col>
 					</Row>
@@ -104,8 +109,8 @@ const CreateCourse = ({ onClick }) => {
 							<InputGroup className='mb-3'>
 								<Input
 									placeholder='Enter duration in minutes...'
-									type='number'
-									name='Duration'
+									labelText='text'
+									nameInput='Duration'
 									id='duration'
 								/>
 							</InputGroup>

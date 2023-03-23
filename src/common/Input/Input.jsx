@@ -3,19 +3,21 @@ import Form from 'react-bootstrap/Form';
 
 export default function Input({
 	labelText,
-	placeholderText,
+	placeholder,
 	onChange,
 	nameInput,
 	id,
+	register,
 }) {
 	return (
 		<>
 			<Form.Control
-				placeholder={placeholderText}
+				placeholder={placeholder}
 				type={labelText}
 				onChange={onChange}
 				name={nameInput}
 				id={id}
+				register={register}
 			/>
 		</>
 	);

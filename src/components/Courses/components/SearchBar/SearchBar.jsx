@@ -17,7 +17,6 @@ const SearchBar = ({ onChange, onSubmit, onClick }) => {
 						<InputGroup className='mb-3'>
 							<Input
 								placeholder='Enter course name...'
-								buttonText='Search'
 								labelText='search'
 								nameInput='mySearch'
 								onChange={onChange}
