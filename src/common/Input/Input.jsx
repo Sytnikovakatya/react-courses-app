@@ -6,7 +6,7 @@ export default function Input({
 	placeholderText,
 	onChange,
 	nameInput,
-	buttonText,
+	id,
 }) {
 	return (
 		<>
@@ -15,6 +15,7 @@ export default function Input({
 				type={labelText}
 				onChange={onChange}
 				name={nameInput}
+				id={id}
 			/>
 		</>
 	);
