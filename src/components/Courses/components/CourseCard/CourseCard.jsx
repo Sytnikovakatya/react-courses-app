@@ -4,8 +4,8 @@ import Card from 'react-bootstrap/Card';
 
 import Button from '../../../../common/Button/Button';
 
-import { getAuthorNames } from './getAuthorsNames';
-import { getTimeFromMins } from './getTimeFromMins';
+import { getAuthorNames } from '../../../../helpers/getAuthorsNames';
+import getTimeFromMins from '../../../../helpers/pipeDuration';
 
 const CourseCard = (props) => {
 	const { title, description, duration, authors } = props;

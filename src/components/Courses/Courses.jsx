@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import CourseCard from './components/CourseCard/CourseCard';
-import { mockedCoursesList } from './components/CourseCard/mockedData';
+import { mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
 
 const Courses = () => {
