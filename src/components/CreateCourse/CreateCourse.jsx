@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
+import { v4 as uuidv4 } from 'uuid';
 
 import './CreateCourse.css';
+
+import { mockedAuthorsList } from '../../helpers/mockedData';
+import pipeDuration from '../../helpers/pipeDuration';
+import CourseAuthorList from './components/CourseAuthorList';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
@@ -14,24 +19,70 @@ import {
 	InputGroup,
 	ListGroup,
 } from 'react-bootstrap';
-import { mockedAuthorsList } from '../../helpers/mockedData';
 
 const CreateCourse = ({ onClick }) => {
 	const [inputText, setInputText] = useState('');
 	const [characterLimit] = useState(2);
+	const [duration, setDuration] = useState('0');
 	const [inputTitle, setInputTitle] = useState('');
 
-	const changeHandler = (e) => {
+	const [name, setName] = useState('');
+	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
+	const [courseList, setCourseList] = useState('');
+
+	const changeHandlerNumbers = (e) => {
 		const value = e.target.value;
 		e.target.value = value.replace(/\D/, '');
-		let v = '5yyy2';
-		console.log(v.replace('5', '1'));
 	};
 
 	const submitCourse = () => {
-		if (inputText < characterLimit) {
+		if (
+			inputText < characterLimit ||
+			inputTitle < characterLimit ||
+			duration === '0' ||
+			courseList.length === 0
+		) {
 			alert('Please, fill in all fields');
+		} else {
+			const courseModel = {
+				id: uuidv4(),
+				title: inputTitle,
+				description: inputText,
+				creationDate: new Date().getTime().toString(),
+				duration: duration,
+				authors: courseList,
+			};
+			console.log(courseModel);
+			onClick();
 		}
+	};
+
+	const handleAddItem = (e) => {
+		e.preventDefault();
+		const newItem = {
+			id: uuidv4(),
+			name,
+		};
+		if (name) {
+			setAuthorList((prevState) => [...prevState, newItem]);
+		}
+	};
+
+	const handleCourseList = (id) => {
+		let name = authorsList.find((author) => author.id === id).name;
+		const newItem = {
+			id: uuidv4(),
+			name,
+		};
+		setCourseList((prevState) => {
+			const newList = [...prevState, newItem];
+			return newList;
+		});
+
+		setAuthorList((prevState) => {
+			const idx = prevState.findIndex((item) => item.id === id);
+			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+		});
 	};
 
 	return (
@@ -86,24 +137,31 @@ const CreateCourse = ({ onClick }) => {
 						<Col className='me-3'>
 							<h2>Add authors</h2>
 							<Form.Label htmlFor='name'>Author name</Form.Label>
-							<InputGroup className='mb-3'>
-								<Input
-									placeholder='Enter author name...'
-									labelText='text'
-									nameInput='Author name'
-									id='name'
-								/>
-							</InputGroup>
-							<Button text='Create author' type='submit' />
+							<Form onSubmit={handleAddItem}>
+								<InputGroup className='mb-3'>
+									<Input
+										placeholder='Enter author name...'
+										labelText='text'
+										nameInput='Author name'
+										id='name'
+										onChange={(e) => setName(e.target.value)}
+									/>
+								</InputGroup>
+								<Button text='Create author' type='submit' />
+							</Form>
 						</Col>
 						<Col>
 							<h2 className='text-center'>Authors</h2>
 							<ListGroup>
-								{mockedAuthorsList.map((author) => {
+								{authorsList.map((author) => {
 									return (
 										<ListGroup.Item key={author.id} className='authors-list'>
 											<div className='fw-bold'>{author.name}</div>
-											<Button text='Add author' type='submit' />
+											<Button
+												text='Add author'
+												type='submit'
+												onClick={() => handleCourseList(author.id)}
+											/>
 										</ListGroup.Item>
 									);
 								})}
@@ -120,15 +178,21 @@ const CreateCourse = ({ onClick }) => {
 									labelText='text'
 									nameInput='Duration'
 									id='duration'
-									onInput={changeHandler}
+									onInput={changeHandlerNumbers}
+									onChange={(e) => setDuration(e.target.value)}
 								/>
 							</InputGroup>
 
-							<h3>Duration: 00:00 hours</h3>
+							<h3>Duration: {pipeDuration(duration)} hours</h3>
 						</Col>
 						<Col className='text-center'>
 							<h2>Course authors</h2>
-							<p>Author list is empty</p>
+
+							<CourseAuthorList
+								courseList={courseList}
+								setCourseList={setCourseList}
+								setAuthorList={setAuthorList}
+							/>
 						</Col>
 					</Row>
 				</Container>
