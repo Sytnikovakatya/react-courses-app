@@ -7,9 +7,13 @@ import Button from '../../../../common/Button/Button';
 import { getAuthorNames } from '../../../../helpers/getAuthorsNames';
 import getTimeFromMins from '../../../../helpers/pipeDuration';
 
-export default function CourseCard(props) {
-	const { title, description, duration, authors } = props;
-
+export default function CourseCard({
+	title,
+	description,
+	duration,
+	authors,
+	creationDate,
+}) {
 	return (
 		<>
 			<Card bg='light shadow' className='p-4 m-5'>
@@ -30,7 +34,7 @@ export default function CourseCard(props) {
 							</Card.Text>
 							<Card.Text>
 								<strong>Created: </strong>
-								{props.creationDate}
+								{creationDate}
 							</Card.Text>
 							<Button text='Show course' />
 						</Card.Body>
