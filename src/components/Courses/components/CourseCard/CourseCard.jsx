@@ -4,7 +4,7 @@ import Card from 'react-bootstrap/Card';
 
 import Button from '../../../../common/Button/Button';
 
-import { getAuthorNames } from '../../../../helpers/getAuthorsNames';
+import { getAuthorNames } from '../../../../helpers/getAuthorNames';
 import getTimeFromMins from '../../../../helpers/pipeDuration';
 
 export default function CourseCard({
