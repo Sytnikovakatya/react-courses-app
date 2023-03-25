@@ -5,7 +5,7 @@ import { mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
 import CreateCourse from '../CreateCourse/CreateCourse';
 
-const Courses = () => {
+export default function Courses() {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
 	const [searchInput, setSearchInput] = useState('');
 	const [active, setActive] = useState('List');
@@ -75,6 +75,4 @@ const Courses = () => {
 			</div>
 		</>
 	);
-};
-
-export default Courses;
+}

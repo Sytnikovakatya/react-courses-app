@@ -7,7 +7,7 @@ import Button from '../../../../common/Button/Button';
 import { getAuthorNames } from '../../../../helpers/getAuthorsNames';
 import getTimeFromMins from '../../../../helpers/pipeDuration';
 
-const CourseCard = (props) => {
+export default function CourseCard(props) {
 	const { title, description, duration, authors } = props;
 
 	return (
@@ -39,6 +39,4 @@ const CourseCard = (props) => {
 			</Card>
 		</>
 	);
-};
-
-export default CourseCard;
+}

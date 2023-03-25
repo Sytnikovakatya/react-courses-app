@@ -20,7 +20,7 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-const CreateCourse = ({ onClick }) => {
+export default function CreateCourse({ onClick }) {
 	const [inputText, setInputText] = useState('');
 	const [characterLimit] = useState(2);
 	const [duration, setDuration] = useState('0');
@@ -199,6 +199,4 @@ const CreateCourse = ({ onClick }) => {
 			</Container>
 		</>
 	);
-};
-
-export default CreateCourse;
+}

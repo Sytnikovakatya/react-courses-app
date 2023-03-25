@@ -4,7 +4,11 @@ import { v4 as uuidv4 } from 'uuid';
 import { ListGroup } from 'react-bootstrap';
 import Button from '../../../common/Button/Button';
 
-const CourseAuthorList = ({ courseList, setCourseList, setAuthorList }) => {
+export default function CourseAuthorList({
+	courseList,
+	setCourseList,
+	setAuthorList,
+}) {
 	const handleDeleteItem = (id) => {
 		setCourseList((prevState) => {
 			const idx = prevState.findIndex((item) => item.id === id);
@@ -41,6 +45,4 @@ const CourseAuthorList = ({ courseList, setCourseList, setAuthorList }) => {
 	} else {
 		return <p>Author list is empty</p>;
 	}
-};
-
-export default CourseAuthorList;
+}

@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-const SearchBar = ({ onChange, onSubmit, onClick }) => {
+export default function SearchBar({ onChange, onSubmit, onClick }) {
 	return (
 		<>
 			<Container>
@@ -31,6 +31,4 @@ const SearchBar = ({ onChange, onSubmit, onClick }) => {
 			</Container>
 		</>
 	);
-};
-
-export default SearchBar;
+}
