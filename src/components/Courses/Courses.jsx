@@ -27,8 +27,7 @@ export default function Courses() {
 		}
 	};
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
+	const handleSubmit = () => {
 		filteredResult(searchInput);
 	};
 
