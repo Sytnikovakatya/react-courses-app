@@ -5,16 +5,16 @@ import { ListGroup } from 'react-bootstrap';
 import Button from '../../../common/Button/Button';
 
 export default function CourseAuthorList({
-	courseList,
-	setCourseList,
+	authorCourseList,
+	setAuthorCourseList,
 	setAuthorList,
 }) {
 	const handleDeleteItem = (id) => {
-		setCourseList((prevState) => {
+		setAuthorCourseList((prevState) => {
 			const idx = prevState.findIndex((item) => item.id === id);
 			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
 		});
-		let name = courseList.find((author) => author.id === id).name;
+		let name = authorCourseList.find((author) => author.id === id).name;
 		const newItem = {
 			id: uuidv4(),
 			name,
@@ -25,10 +25,10 @@ export default function CourseAuthorList({
 		});
 	};
 
-	if (courseList.length > 0) {
+	if (authorCourseList.length > 0) {
 		return (
 			<ListGroup>
-				{courseList.map((author) => {
+				{authorCourseList.map((author) => {
 					return (
 						<ListGroup.Item key={author.id} className='authors-list'>
 							<div className='fw-bold'>{author.name}</div>

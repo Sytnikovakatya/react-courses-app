@@ -24,16 +24,16 @@ import {
 export default function CreateCourse({
 	addNewCourse,
 	closeCreateModal,
-	newAuthorsList,
+	updateTotalAuthorsList,
 }) {
-	const [inputText, setInputText] = useState('');
+	const [title, setTitle] = useState('');
+	const [description, setDescription] = useState('');
 	const [characterLimit] = useState(2);
 	const [duration, setDuration] = useState('0');
-	const [inputTitle, setInputTitle] = useState('');
 
-	const [name, setName] = useState('');
+	const [authorName, setAuthorName] = useState('');
 	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
-	const [courseList, setCourseList] = useState('');
+	const [authorCourseList, setAuthorCourseList] = useState('');
 
 	const changeHandlerNumbers = (e) => {
 		const value = e.target.value;
@@ -44,26 +44,24 @@ export default function CreateCourse({
 		e.preventDefault();
 		const newItem = {
 			id: uuidv4(),
-			name,
+			name: authorName,
 		};
 
-		if (name) {
+		if (authorName) {
 			setAuthorList((prevState) => [...prevState, newItem]);
-			newAuthorsList(newItem);
+			updateTotalAuthorsList(newItem);
 		}
 	};
 
 	const handleCourseList = (id) => {
-		let name = authorsList.find((author) => author.id === id).name;
+		let chosenAuthorName = authorsList.find((author) => author.id === id).name;
 
 		const newItem = {
 			id: id,
-			name,
+			name: chosenAuthorName,
 		};
-		setCourseList((prevState) => {
-			const newList = [...prevState, newItem];
-			return newList;
-		});
+
+		setAuthorCourseList((prevState) => [...prevState, newItem]);
 
 		setAuthorList((prevState) => {
 			const idx = prevState.findIndex((item) => item.id === id);
@@ -73,21 +71,21 @@ export default function CreateCourse({
 
 	const submitCourse = () => {
 		if (
-			inputText < characterLimit ||
-			inputTitle < characterLimit ||
+			description < characterLimit ||
+			title < characterLimit ||
 			duration === '0' ||
-			courseList.length === 0
+			authorCourseList.length === 0
 		) {
 			alert('Please, fill in all fields');
 		} else {
-			const authors = courseList.map((course) => {
-				return course.id;
+			const authors = authorCourseList.map((author) => {
+				return author.id;
 			});
 
 			const courseModel = {
 				id: uuidv4(),
-				title: inputTitle,
-				description: inputText,
+				title: title,
+				description: description,
 				creationDate: dateGenerator(new Date()),
 				duration: duration,
 				authors: authors,
@@ -108,9 +106,9 @@ export default function CreateCourse({
 									labelText='text'
 									nameInput='Title'
 									id='title'
-									value={inputTitle}
-									onChange={(e) => setInputTitle(e.target.value)}
-									isInvalid={inputTitle.length < characterLimit}
+									value={title}
+									onChange={(e) => setTitle(e.target.value)}
+									isInvalid={title.length < characterLimit}
 								/>
 							</InputGroup>
 						</Col>
@@ -132,9 +130,9 @@ export default function CreateCourse({
 							>
 								<Form.Control
 									as='textarea'
-									value={inputText}
-									onChange={(e) => setInputText(e.target.value)}
-									isInvalid={inputText.length < characterLimit}
+									value={description}
+									onChange={(e) => setDescription(e.target.value)}
+									isInvalid={description.length < characterLimit}
 									placeholder='Enter description'
 									style={{ height: '100px' }}
 								/>
@@ -154,7 +152,7 @@ export default function CreateCourse({
 										labelText='text'
 										nameInput='Author name'
 										id='name'
-										onChange={(e) => setName(e.target.value)}
+										onChange={(e) => setAuthorName(e.target.value)}
 									/>
 								</InputGroup>
 								<Button text='Create author' type='submit' />
@@ -199,8 +197,8 @@ export default function CreateCourse({
 							<h2>Course authors</h2>
 
 							<CourseAuthorList
-								courseList={courseList}
-								setCourseList={setCourseList}
+								authorCourseList={authorCourseList}
+								setAuthorCourseList={setAuthorCourseList}
 								setAuthorList={setAuthorList}
 							/>
 						</Col>

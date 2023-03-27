@@ -7,7 +7,7 @@ import CreateCourse from '../CreateCourse/CreateCourse';
 
 export default function Courses() {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
-	const [searchInput, setSearchInput] = useState('');
+	const [searchBarInputValue, setSearchBarInputValue] = useState('');
 	const [active, setActive] = useState('List');
 
 	const [totalAuthorList, setTotalAuthorList] = useState(mockedAuthorsList);
@@ -25,21 +25,21 @@ export default function Courses() {
 		setActive('List');
 	};
 
-	const newAuthorsList = (newItem) => {
+	const updateTotalAuthorsList = (newItem) => {
 		setTotalAuthorList((prevState) => [...prevState, newItem]);
 	};
 
 	const searchItems = (event) => {
 		event.preventDefault();
 		let searchValue = event.target.value;
-		setSearchInput(searchValue);
+		setSearchBarInputValue(searchValue);
 		if (searchValue === '') {
 			setCourseList(mockedCoursesList);
 		}
 	};
 
 	const handleSubmit = () => {
-		filteredResult(searchInput);
+		filteredResult(searchBarInputValue);
 	};
 
 	const filteredResult = (searchInput) => {
@@ -82,7 +82,7 @@ export default function Courses() {
 				{active === 'CreateCourse' && (
 					<CreateCourse
 						addNewCourse={addNewCourse}
-						newAuthorsList={newAuthorsList}
+						updateTotalAuthorsList={updateTotalAuthorsList}
 						closeCreateModal={closeCreateModal}
 					/>
 				)}
