@@ -8,7 +8,7 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export default function SearchBar({ onChange, onSubmit, onClick }) {
+export default function SearchBar({ searchItems, onSubmit, onCreateCourse }) {
 	return (
 		<>
 			<Container>
@@ -19,13 +19,17 @@ export default function SearchBar({ onChange, onSubmit, onClick }) {
 								placeholder='Enter course name...'
 								labelText='search'
 								nameInput='mySearch'
-								onChange={onChange}
+								onChange={searchItems}
 							/>
 							<Button text='Search' onClick={onSubmit} type='submit' />
 						</InputGroup>
 					</Col>
 					<Col md={{ span: 3, offset: 4 }}>
-						<Button text='Add new course' type='submit' onClick={onClick} />
+						<Button
+							text='Add new course'
+							type='submit'
+							onClick={onCreateCourse}
+						/>
 					</Col>
 				</Row>
 			</Container>

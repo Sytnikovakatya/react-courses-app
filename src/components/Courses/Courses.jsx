@@ -12,7 +12,7 @@ export default function Courses() {
 
 	const [totalAuthorList, setTotalAuthorList] = useState(mockedAuthorsList);
 
-	const createCourse = () => {
+	const onCreateCourse = () => {
 		setActive('CreateCourse');
 	};
 
@@ -72,9 +72,9 @@ export default function Courses() {
 				{active === 'List' && (
 					<>
 						<SearchBar
-							onChange={searchItems}
+							searchItems={searchItems}
 							onSubmit={handleSubmit}
-							onClick={createCourse}
+							onCreateCourse={onCreateCourse}
 						/>
 						<List />
 					</>
