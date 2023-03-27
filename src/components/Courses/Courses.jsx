@@ -18,6 +18,11 @@ export default function Courses() {
 		setActive('List');
 	};
 
+	const addNewCourse = (data) => {
+		setCourseList((prevState) => [...prevState, data]);
+		setActive('List');
+	};
+
 	const searchItems = (event) => {
 		event.preventDefault();
 		let searchValue = event.target.value;
@@ -69,7 +74,10 @@ export default function Courses() {
 					</>
 				)}
 				{active === 'CreateCourse' && (
-					<CreateCourse onClick={closeCreateModal} />
+					<CreateCourse
+						addNewCourse={addNewCourse}
+						closeCreateModal={closeCreateModal}
+					/>
 				)}
 			</div>
 		</>

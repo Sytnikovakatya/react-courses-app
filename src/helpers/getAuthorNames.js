@@ -1,6 +1,6 @@
 import { mockedAuthorsList } from './mockedData';
 
-export const getAuthorNames = (authors) => {
+export function getAuthorNames(authors) {
 	let firstAuthor = mockedAuthorsList.find(
 		(author) => author.id === authors[0]
 	).name;
@@ -8,4 +8,4 @@ export const getAuthorNames = (authors) => {
 		(author) => author.id === authors[1]
 	).name;
 	return firstAuthor + ',' + secondAuthor;
-};
+}

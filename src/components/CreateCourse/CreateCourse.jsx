@@ -5,6 +5,7 @@ import './CreateCourse.css';
 
 import { mockedAuthorsList } from '../../helpers/mockedData';
 import pipeDuration from '../../helpers/pipeDuration';
+import { dateGenerator } from '../../helpers/dateGenerator';
 import CourseAuthorList from './components/CourseAuthorList';
 
 import Input from '../../common/Input/Input';
@@ -20,7 +21,7 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-export default function CreateCourse({ onClick }) {
+export default function CreateCourse({ addNewCourse, closeCreateModal }) {
 	const [inputText, setInputText] = useState('');
 	const [characterLimit] = useState(2);
 	const [duration, setDuration] = useState('0');
@@ -35,28 +36,6 @@ export default function CreateCourse({ onClick }) {
 		e.target.value = value.replace(/\D/, '');
 	};
 
-	const submitCourse = () => {
-		if (
-			inputText < characterLimit ||
-			inputTitle < characterLimit ||
-			duration === '0' ||
-			courseList.length === 0
-		) {
-			alert('Please, fill in all fields');
-		} else {
-			const courseModel = {
-				id: uuidv4(),
-				title: inputTitle,
-				description: inputText,
-				creationDate: new Date().getTime().toString(),
-				duration: duration,
-				authors: courseList,
-			};
-			console.log(courseModel);
-			onClick();
-		}
-	};
-
 	const handleAddItem = (e) => {
 		e.preventDefault();
 		const newItem = {
@@ -65,6 +44,7 @@ export default function CreateCourse({ onClick }) {
 		};
 		if (name) {
 			setAuthorList((prevState) => [...prevState, newItem]);
+			console.log(authorsList);
 		}
 	};
 
@@ -83,6 +63,34 @@ export default function CreateCourse({ onClick }) {
 			const idx = prevState.findIndex((item) => item.id === id);
 			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
 		});
+
+		console.log(courseList);
+		console.log(authorsList);
+	};
+
+	const submitCourse = () => {
+		if (
+			inputText < characterLimit ||
+			inputTitle < characterLimit ||
+			duration === '0' ||
+			courseList.length === 0
+		) {
+			alert('Please, fill in all fields');
+		} else {
+			console.log(authorsList);
+			const courseModel = {
+				id: uuidv4(),
+				title: inputTitle,
+				description: inputText,
+				creationDate: dateGenerator(new Date()),
+				duration: duration,
+				authors: [
+					'df32994e-b23d-497c-9e4d-84e4dc02882f',
+					'095a1817-d45b-4ed7-9cf7-b2417bcbf748',
+				],
+			};
+			addNewCourse(courseModel);
+		}
 	};
 
 	return (
@@ -110,7 +118,7 @@ export default function CreateCourse({ onClick }) {
 								type='submit'
 								onClick={submitCourse}
 							/>
-							<Button text='Close' type='submit' onClick={onClick} />
+							<Button text='Close' type='submit' onClick={closeCreateModal} />
 						</Col>
 					</Row>
 					<Row>
