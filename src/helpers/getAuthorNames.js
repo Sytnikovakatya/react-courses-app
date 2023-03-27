@@ -1,5 +1,3 @@
-//import { mockedAuthorsList } from './mockedData';
-
 export function getAuthorNames(listOfAuthorsIds, totalAuthorList) {
 	return listOfAuthorsIds
 		.map(
