@@ -7,6 +7,10 @@ import { mockedAuthorsList } from '../../helpers/mockedData';
 import pipeDuration from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
 import CourseAuthorList from './components/CourseAuthorList';
+import {
+	formValidation,
+	changeHandlerNumbers,
+} from '../../helpers/formValidation';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
@@ -35,18 +39,12 @@ export default function CreateCourse({
 	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
 	const [authorCourseList, setAuthorCourseList] = useState('');
 
-	const changeHandlerNumbers = (e) => {
-		const value = e.target.value;
-		e.target.value = value.replace(/\D/, '');
-	};
-
 	const handleAddItem = (e) => {
 		e.preventDefault();
 		const newItem = {
 			id: uuidv4(),
 			name: authorName,
 		};
-
 		if (authorName) {
 			setAuthorList((prevState) => [...prevState, newItem]);
 			updateTotalAuthorsList(newItem);
@@ -55,12 +53,10 @@ export default function CreateCourse({
 
 	const handleCourseList = (id) => {
 		let chosenAuthorName = authorsList.find((author) => author.id === id).name;
-
 		const newItem = {
 			id: id,
 			name: chosenAuthorName,
 		};
-
 		setAuthorCourseList((prevState) => [...prevState, newItem]);
 
 		setAuthorList((prevState) => {
@@ -70,18 +66,10 @@ export default function CreateCourse({
 	};
 
 	const submitCourse = () => {
-		if (
-			description < characterLimit ||
-			title < characterLimit ||
-			duration === '0' ||
-			authorCourseList.length === 0
-		) {
-			alert('Please, fill in all fields');
-		} else {
+		if (formValidation(description, title, duration, authorCourseList)) {
 			const authors = authorCourseList.map((author) => {
 				return author.id;
 			});
-
 			const courseModel = {
 				id: uuidv4(),
 				title: title,
