@@ -21,7 +21,11 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-export default function CreateCourse({ addNewCourse, closeCreateModal }) {
+export default function CreateCourse({
+	addNewCourse,
+	closeCreateModal,
+	newAuthorsList,
+}) {
 	const [inputText, setInputText] = useState('');
 	const [characterLimit] = useState(2);
 	const [duration, setDuration] = useState('0');
@@ -42,16 +46,18 @@ export default function CreateCourse({ addNewCourse, closeCreateModal }) {
 			id: uuidv4(),
 			name,
 		};
+
 		if (name) {
 			setAuthorList((prevState) => [...prevState, newItem]);
-			console.log(authorsList);
+			newAuthorsList(newItem);
 		}
 	};
 
 	const handleCourseList = (id) => {
 		let name = authorsList.find((author) => author.id === id).name;
+
 		const newItem = {
-			id: uuidv4(),
+			id: id,
 			name,
 		};
 		setCourseList((prevState) => {
@@ -63,9 +69,6 @@ export default function CreateCourse({ addNewCourse, closeCreateModal }) {
 			const idx = prevState.findIndex((item) => item.id === id);
 			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
 		});
-
-		console.log(courseList);
-		console.log(authorsList);
 	};
 
 	const submitCourse = () => {
@@ -77,22 +80,21 @@ export default function CreateCourse({ addNewCourse, closeCreateModal }) {
 		) {
 			alert('Please, fill in all fields');
 		} else {
-			console.log(authorsList);
+			const authors = courseList.map((course) => {
+				return course.id;
+			});
+
 			const courseModel = {
 				id: uuidv4(),
 				title: inputTitle,
 				description: inputText,
 				creationDate: dateGenerator(new Date()),
 				duration: duration,
-				authors: [
-					'df32994e-b23d-497c-9e4d-84e4dc02882f',
-					'095a1817-d45b-4ed7-9cf7-b2417bcbf748',
-				],
+				authors: authors,
 			};
 			addNewCourse(courseModel);
 		}
 	};
-
 	return (
 		<>
 			<Container className='create-course shadow'>

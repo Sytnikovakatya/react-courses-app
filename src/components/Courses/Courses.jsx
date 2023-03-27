@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import CourseCard from './components/CourseCard/CourseCard';
-import { mockedCoursesList } from '../../helpers/mockedData';
+import { mockedAuthorsList, mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
 import CreateCourse from '../CreateCourse/CreateCourse';
 
@@ -9,6 +9,8 @@ export default function Courses() {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
 	const [searchInput, setSearchInput] = useState('');
 	const [active, setActive] = useState('List');
+
+	const [totalAuthorList, setTotalAuthorList] = useState(mockedAuthorsList);
 
 	const createCourse = () => {
 		setActive('CreateCourse');
@@ -21,6 +23,10 @@ export default function Courses() {
 	const addNewCourse = (data) => {
 		setCourseList((prevState) => [...prevState, data]);
 		setActive('List');
+	};
+
+	const newAuthorsList = (newItem) => {
+		setTotalAuthorList((prevState) => [...prevState, newItem]);
 	};
 
 	const searchItems = (event) => {
@@ -52,7 +58,7 @@ export default function Courses() {
 				{courseList.map((course) => {
 					return (
 						<div key={course.id}>
-							<CourseCard {...course} />
+							<CourseCard {...course} totalAuthorList={totalAuthorList} />
 						</div>
 					);
 				})}
@@ -76,6 +82,7 @@ export default function Courses() {
 				{active === 'CreateCourse' && (
 					<CreateCourse
 						addNewCourse={addNewCourse}
+						newAuthorsList={newAuthorsList}
 						closeCreateModal={closeCreateModal}
 					/>
 				)}

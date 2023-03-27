@@ -1,11 +1,10 @@
-import { mockedAuthorsList } from './mockedData';
+//import { mockedAuthorsList } from './mockedData';
 
-export function getAuthorNames(listOfAuthorsIds) {
+export function getAuthorNames(listOfAuthorsIds, totalAuthorList) {
 	return listOfAuthorsIds
 		.map(
 			(authorId) =>
-				mockedAuthorsList.find((author) => author.id === authorId)?.name ||
-				'N/A'
+				totalAuthorList.find((author) => author.id === authorId)?.name || 'N/A'
 		)
 		.join(', ');
 }

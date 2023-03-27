@@ -13,6 +13,7 @@ export default function CourseCard({
 	duration,
 	authors,
 	creationDate,
+	totalAuthorList,
 }) {
 	return (
 		<>
@@ -26,7 +27,7 @@ export default function CourseCard({
 						<Card.Body>
 							<Card.Text className='text-truncate'>
 								<strong>Authors: </strong>
-								{getAuthorNames(authors)}
+								{getAuthorNames(authors, totalAuthorList)}
 							</Card.Text>
 							<Card.Text>
 								<strong>Duration: </strong>
