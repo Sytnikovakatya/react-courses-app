@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
 
-import CourseCard from './components/CourseCard/CourseCard';
 import { mockedAuthorsList, mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
+import List from './components/List/List';
 import CreateCourse from '../CreateCourse/CreateCourse';
 
 export default function Courses() {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
 	const [searchBarInputValue, setSearchBarInputValue] = useState('');
-	const [active, setActive] = useState('List');
-
 	const [totalAuthorList, setTotalAuthorList] = useState(mockedAuthorsList);
+	const [active, setActive] = useState('List');
 
 	const onCreateCourse = () => {
 		setActive('CreateCourse');
@@ -38,33 +37,12 @@ export default function Courses() {
 		}
 	};
 
-	const handleSubmit = () => {
-		filteredResult(searchBarInputValue);
-	};
-
-	const filteredResult = (searchInput) => {
-		const filteredData = mockedCoursesList.filter((item) => {
-			return Object.values(item)
-				.join('')
-				.toLowerCase()
-				.includes(searchInput.toLowerCase());
-		});
-		setCourseList(filteredData);
-	};
-
-	const List = () => {
-		return (
-			<section>
-				{courseList.map((course) => {
-					return (
-						<div key={course.id}>
-							<CourseCard {...course} totalAuthorList={totalAuthorList} />
-						</div>
-					);
-				})}
-			</section>
-		);
-	};
+	const filtredResult = courseList.filter((item) => {
+		return Object.values(item)
+			.join('')
+			.toLowerCase()
+			.includes(searchBarInputValue.toLowerCase());
+	});
 
 	return (
 		<>
@@ -73,10 +51,9 @@ export default function Courses() {
 					<>
 						<SearchBar
 							searchItems={searchItems}
-							onSubmit={handleSubmit}
 							onCreateCourse={onCreateCourse}
 						/>
-						<List />
+						<List courses={filtredResult} totalAuthorList={totalAuthorList} />
 					</>
 				)}
 				{active === 'CreateCourse' && (

@@ -2,7 +2,7 @@ import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
 import { ListGroup } from 'react-bootstrap';
-import Button from '../../../common/Button/Button';
+import Button from '../../../../common/Button/Button';
 
 export default function CourseAuthorList({
 	authorCourseList,

@@ -6,7 +6,7 @@ import './CreateCourse.css';
 import { mockedAuthorsList } from '../../helpers/mockedData';
 import pipeDuration from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
-import CourseAuthorList from './components/CourseAuthorList';
+import CourseAuthorList from './components/CourseAuthorList/CourseAuthorList';
 import {
 	formValidation,
 	changeHandlerNumbers,
