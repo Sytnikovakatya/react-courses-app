@@ -7,10 +7,7 @@ import { mockedAuthorsList } from '../../helpers/mockedData';
 import pipeDuration from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
 import CourseAuthorList from './components/CourseAuthorList/CourseAuthorList';
-import {
-	formValidation,
-	changeHandlerNumbers,
-} from '../../helpers/formValidation';
+import { isFormValid, changeHandlerNumbers } from '../../helpers/isFormValid';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
@@ -39,7 +36,7 @@ export default function CreateCourse({
 	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
 	const [authorCourseList, setAuthorCourseList] = useState('');
 
-	const handleAddItem = (e) => {
+	const handleAddAthor = (e) => {
 		e.preventDefault();
 		const newItem = {
 			id: uuidv4(),
@@ -66,7 +63,7 @@ export default function CreateCourse({
 	};
 
 	const submitCourse = () => {
-		if (formValidation(description, title, duration, authorCourseList)) {
+		if (isFormValid(description, title, duration, authorCourseList)) {
 			const authors = authorCourseList.map((author) => {
 				return author.id;
 			});
@@ -133,7 +130,7 @@ export default function CreateCourse({
 						<Col className='me-3'>
 							<h2>Add authors</h2>
 							<Form.Label htmlFor='name'>Author name</Form.Label>
-							<Form onSubmit={handleAddItem}>
+							<Form onSubmit={handleAddAthor}>
 								<InputGroup className='mb-3'>
 									<Input
 										placeholder='Enter author name...'

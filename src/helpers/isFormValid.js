@@ -1,4 +1,4 @@
-export function formValidation(description, title, duration, authorCourseList) {
+export function isFormValid(description, title, duration, authorCourseList) {
 	const characterLimit = 2;
 	if (
 		description < characterLimit ||
