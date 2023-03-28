@@ -32,9 +32,6 @@ export default function Courses() {
 		event.preventDefault();
 		let searchValue = event.target.value;
 		setSearchBarInputValue(searchValue);
-		if (searchValue === '') {
-			setCourseList(mockedCoursesList);
-		}
 	};
 
 	const filtredResult = courseList.filter((item) => {
