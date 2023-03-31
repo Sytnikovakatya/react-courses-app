@@ -7,7 +7,7 @@ import Input from '../../common/Input/Input';
 import Form from 'react-bootstrap/Form';
 import { Container, InputGroup } from 'react-bootstrap';
 
-export default function Example() {
+export default function Registration() {
 	return (
 		<>
 			<Container fluid='sm' className='w-50'>
