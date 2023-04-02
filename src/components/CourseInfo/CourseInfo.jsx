@@ -1,23 +1,26 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useParams, useLocation } from 'react-router-dom';
 
 import { Container, Row, Col } from 'react-bootstrap';
 
 import Button from '../../common/Button/Button';
-import { mockedCoursesList } from '../../helpers/mockedData';
 
 import pipeDuration from '../../helpers/pipeDuration';
+import { getAuthorNames } from '../../helpers/getAuthorNames';
 
 export default function CourseInfo() {
 	const [course, setCourse] = useState([]);
+	const [authors, setAuthors] = useState([]);
 	const { courseId } = useParams();
 
+	const location = useLocation();
+	const { totalAuthorList, courseList } = location.state;
+
 	useEffect(() => {
-		const courseShown = mockedCoursesList.find(
-			(course) => course.id === courseId
-		);
+		const courseShown = courseList.find((course) => course.id === courseId);
 		setCourse(courseShown);
-	}, [courseId]);
+		setAuthors(courseShown.authors);
+	}, [courseList, courseId]);
 
 	return (
 		<>
@@ -46,7 +49,7 @@ export default function CourseInfo() {
 						</p>
 						<p>
 							<strong>Authors: </strong>
-							{course.authors}
+							{getAuthorNames(authors, totalAuthorList)}
 						</p>
 					</Col>
 				</Row>

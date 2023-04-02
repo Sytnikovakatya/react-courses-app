@@ -16,6 +16,7 @@ export default function CourseCard({
 	authors,
 	creationDate,
 	totalAuthorList,
+	courseList,
 }) {
 	return (
 		<>
@@ -39,7 +40,10 @@ export default function CourseCard({
 								<strong>Created: </strong>
 								{creationDate}
 							</Card.Text>
-							<Link to={`/courses/${id}`}>
+							<Link
+								to={`/courses/${id}`}
+								state={{ totalAuthorList, courseList }}
+							>
 								<Button text='Show course' />
 							</Link>
 						</Card.Body>
