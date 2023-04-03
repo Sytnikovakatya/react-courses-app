@@ -5,6 +5,7 @@ import { Navigate } from 'react-router-dom';
 import { mockedAuthorsList, mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
 import List from './components/List/List';
+import DashBoard from '../Header/DashBoard';
 
 import { useLocation } from 'react-router-dom';
 
@@ -46,6 +47,7 @@ export default function Courses() {
 			<>
 				<div>
 					<>
+						<DashBoard />
 						<SearchBar searchItems={searchItems} />
 						<List
 							courses={filtredResult}
