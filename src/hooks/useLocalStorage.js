@@ -1,4 +1,3 @@
-//Цей хук дозволить нам легко зберігати та отримувати дані з localStorage.
 import { useState } from 'react';
 
 export function useLocalStorage() {
