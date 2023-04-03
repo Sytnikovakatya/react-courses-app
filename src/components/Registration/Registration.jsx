@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 
 import axios from '../api/axios';
 
+import Header from '../Header/Header';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
@@ -15,9 +16,7 @@ export default function Registration() {
 	const [password, setPassword] = useState('');
 
 	const navigate = useNavigate();
-
 	const REGISTER_URL = '/register';
-
 	const submitRegistration = async (e) => {
 		e.preventDefault();
 		const newUser = {
@@ -25,17 +24,15 @@ export default function Registration() {
 			email: userEmail,
 			password: password,
 		};
-
 		try {
-			const response = await axios.post(REGISTER_URL, JSON.stringify(newUser), {
+			await axios.post(REGISTER_URL, JSON.stringify(newUser), {
 				headers: { 'Content-Type': 'application/json' },
 			});
-			console.log(JSON.stringify(response));
-
-			navigate('/login');
 			setUserName('');
 			setPassword('');
 			setUserEmail('');
+
+			navigate('/login');
 		} catch (err) {
 			if (!err?.response) {
 				throw new Error('No Server Response');
@@ -46,12 +43,11 @@ export default function Registration() {
 			}
 		}
 	};
-
 	return (
 		<>
+			<Header />
 			<Container fluid='sm' className='w-50'>
 				<h1 className='pb-5 text-center'>Registration</h1>
-
 				<Form onSubmit={submitRegistration}>
 					<Form.Group className='mb-3'>
 						<Form.Label>Name</Form.Label>
@@ -91,7 +87,6 @@ export default function Registration() {
 					</Form.Group>
 					<Button text='Registration' type='submit' />
 				</Form>
-
 				<p className='mt-5 text-center'>
 					If you have an account you can <Link to='/login'>Login</Link>
 				</p>
