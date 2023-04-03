@@ -13,6 +13,7 @@ import { isFormValid, changeHandlerNumbers } from '../../helpers/isFormValid';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
+import DashBoard from '../Header/DashBoard';
 
 import {
 	Form,
@@ -79,6 +80,7 @@ export default function CreateCourse() {
 	};
 	return (
 		<>
+			<DashBoard />
 			<Container className='create-course shadow'>
 				<Container fluid='md' className='p-4'>
 					<Row>
