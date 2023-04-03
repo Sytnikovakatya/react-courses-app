@@ -4,6 +4,7 @@ import { Link, useParams, useLocation } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 
 import Button from '../../common/Button/Button';
+import DashBoard from '../Header/DashBoard';
 
 import pipeDuration from '../../helpers/pipeDuration';
 import { getAuthorNames } from '../../helpers/getAuthorNames';
@@ -24,6 +25,7 @@ export default function CourseInfo() {
 
 	return (
 		<>
+			<DashBoard />
 			<Container className='light shadow p-5'>
 				<Link to='/courses'>
 					<Button text='Back to courses' />
