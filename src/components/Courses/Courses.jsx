@@ -1,32 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { Navigate } from 'react-router-dom';
 
 import { mockedAuthorsList, mockedCoursesList } from '../../helpers/mockedData';
 import SearchBar from './components/SearchBar/SearchBar';
 import List from './components/List/List';
-import CreateCourse from '../CreateCourse/CreateCourse';
+import DashBoard from '../Header/DashBoard';
+
+import { useLocation } from 'react-router-dom';
 
 export default function Courses() {
 	const [courseList, setCourseList] = useState(mockedCoursesList);
 	const [searchBarInputValue, setSearchBarInputValue] = useState('');
 	const [totalAuthorList, setTotalAuthorList] = useState(mockedAuthorsList);
-	const [active, setActive] = useState('List');
-
-	const onCreateCourse = () => {
-		setActive('CreateCourse');
-	};
-
-	const closeCreateModal = () => {
-		setActive('List');
-	};
-
-	const addNewCourse = (data) => {
-		setCourseList((prevState) => [...prevState, data]);
-		setActive('List');
-	};
-
-	const updateTotalAuthorsList = (newItem) => {
-		setTotalAuthorList((prevState) => [...prevState, newItem]);
-	};
+	const location = useLocation();
+	useEffect(() => {
+		if (location.state !== null) {
+			const { courseModel, authorCourseList } = location.state;
+			setCourseList((prevState) => [...prevState, courseModel]);
+			const newAuthors = authorCourseList.filter((newAuthor) =>
+				totalAuthorList.every((author) => author.id !== newAuthor.id)
+			);
+			for (let i = 0; i < newAuthors.length; i++) {
+				setTotalAuthorList((prevState) => [...prevState, newAuthors[i]]);
+			}
+		}
+	}, []);
 
 	const searchItems = (event) => {
 		event.preventDefault();
@@ -41,26 +40,23 @@ export default function Courses() {
 			.includes(searchBarInputValue.toLowerCase());
 	});
 
-	return (
-		<>
-			<div>
-				{active === 'List' && (
+	if (!localStorage.getItem('authenticated')) {
+		return <Navigate replace to='/login' />;
+	} else {
+		return (
+			<>
+				<div>
 					<>
-						<SearchBar
-							searchItems={searchItems}
-							onCreateCourse={onCreateCourse}
+						<DashBoard />
+						<SearchBar searchItems={searchItems} />
+						<List
+							courses={filtredResult}
+							totalAuthorList={totalAuthorList}
+							courseList={courseList}
 						/>
-						<List courses={filtredResult} totalAuthorList={totalAuthorList} />
 					</>
-				)}
-				{active === 'CreateCourse' && (
-					<CreateCourse
-						addNewCourse={addNewCourse}
-						updateTotalAuthorsList={updateTotalAuthorsList}
-						closeCreateModal={closeCreateModal}
-					/>
-				)}
-			</div>
-		</>
-	);
+				</div>
+			</>
+		);
+	}
 }

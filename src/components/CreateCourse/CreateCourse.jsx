@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 
+import { Link, useNavigate } from 'react-router-dom';
+
 import './CreateCourse.css';
 
 import { mockedAuthorsList } from '../../helpers/mockedData';
@@ -11,6 +13,7 @@ import { isFormValid, changeHandlerNumbers } from '../../helpers/isFormValid';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
+import DashBoard from '../Header/DashBoard';
 
 import {
 	Form,
@@ -22,11 +25,7 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-export default function CreateCourse({
-	addNewCourse,
-	closeCreateModal,
-	updateTotalAuthorsList,
-}) {
+export default function CreateCourse() {
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [characterLimit] = useState(2);
@@ -36,7 +35,9 @@ export default function CreateCourse({
 	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
 	const [authorCourseList, setAuthorCourseList] = useState('');
 
-	const handleAddAthor = (e) => {
+	const navigate = useNavigate();
+
+	const handleAddAuthor = (e) => {
 		e.preventDefault();
 		const newItem = {
 			id: uuidv4(),
@@ -44,7 +45,6 @@ export default function CreateCourse({
 		};
 		if (authorName) {
 			setAuthorList((prevState) => [...prevState, newItem]);
-			updateTotalAuthorsList(newItem);
 		}
 	};
 
@@ -75,11 +75,12 @@ export default function CreateCourse({
 				duration: duration,
 				authors: authors,
 			};
-			addNewCourse(courseModel);
+			navigate('/courses', { state: { courseModel, authorCourseList } });
 		}
 	};
 	return (
 		<>
+			<DashBoard />
 			<Container className='create-course shadow'>
 				<Container fluid='md' className='p-4'>
 					<Row>
@@ -103,7 +104,9 @@ export default function CreateCourse({
 								type='submit'
 								onClick={submitCourse}
 							/>
-							<Button text='Close' type='submit' onClick={closeCreateModal} />
+							<Link to='/courses'>
+								<Button text='Close' type='submit' />
+							</Link>
 						</Col>
 					</Row>
 					<Row>
@@ -130,7 +133,7 @@ export default function CreateCourse({
 						<Col className='me-3'>
 							<h2>Add authors</h2>
 							<Form.Label htmlFor='name'>Author name</Form.Label>
-							<Form onSubmit={handleAddAthor}>
+							<Form onSubmit={handleAddAuthor}>
 								<InputGroup className='mb-3'>
 									<Input
 										placeholder='Enter author name...'
@@ -175,12 +178,10 @@ export default function CreateCourse({
 									onChange={(e) => setDuration(e.target.value)}
 								/>
 							</InputGroup>
-
 							<h3>Duration: {pipeDuration(duration)} hours</h3>
 						</Col>
 						<Col className='text-center'>
 							<h2>Course authors</h2>
-
 							<CourseAuthorList
 								authorCourseList={authorCourseList}
 								setAuthorCourseList={setAuthorCourseList}

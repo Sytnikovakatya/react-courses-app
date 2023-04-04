@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import Card from 'react-bootstrap/Card';
 
@@ -8,12 +9,14 @@ import { getAuthorNames } from '../../../../helpers/getAuthorNames';
 import getTimeFromMins from '../../../../helpers/pipeDuration';
 
 export default function CourseCard({
+	id,
 	title,
 	description,
 	duration,
 	authors,
 	creationDate,
 	totalAuthorList,
+	courseList,
 }) {
 	return (
 		<>
@@ -37,7 +40,12 @@ export default function CourseCard({
 								<strong>Created: </strong>
 								{creationDate}
 							</Card.Text>
-							<Button text='Show course' />
+							<Link
+								to={`/courses/${id}`}
+								state={{ totalAuthorList, courseList }}
+							>
+								<Button text='Show course' />
+							</Link>
 						</Card.Body>
 					</div>
 				</div>

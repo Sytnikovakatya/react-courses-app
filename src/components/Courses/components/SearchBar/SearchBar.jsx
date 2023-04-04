@@ -8,7 +8,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-export default function SearchBar({ searchItems, onCreateCourse }) {
+import { Link } from 'react-router-dom';
+
+export default function SearchBar({ searchItems }) {
 	return (
 		<>
 			<Container>
@@ -25,11 +27,9 @@ export default function SearchBar({ searchItems, onCreateCourse }) {
 						</InputGroup>
 					</Col>
 					<Col md={{ span: 3, offset: 4 }}>
-						<Button
-							text='Add new course'
-							type='submit'
-							onClick={onCreateCourse}
-						/>
+						<Link to='/courses/add'>
+							<Button text='Add new course' type='submit' />
+						</Link>
 					</Col>
 				</Row>
 			</Container>
