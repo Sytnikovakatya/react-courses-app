@@ -1,6 +1,5 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import PrivateOutlet from './components/PrivateOutlet/PrivateOutlet';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 
 import Courses from './components/Courses/Courses';
@@ -16,11 +15,9 @@ function App() {
 				<Route path='/' element={<Login />} />
 				<Route path='login' element={<Login />} />
 				<Route path='registration' element={<Registration />} />
-				<Route pathh='/' element={<PrivateOutlet />}>
-					<Route path='courses' element={<Courses />} />
-					<Route path='courses/add' element={<CreateCourse />} />
-					<Route path='courses/:courseId' element={<CourseInfo />} />
-				</Route>
+				<Route path='courses' element={<Courses />} />
+				<Route path='courses/add' element={<CreateCourse />} />
+				<Route path='courses/:courseId' element={<CourseInfo />} />
 			</Routes>
 		</Router>
 	);
