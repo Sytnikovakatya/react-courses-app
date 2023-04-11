@@ -1,14 +1,14 @@
 import axios from '../components/api/axios';
 
-const register = (name, email, password) => {
+function register(name, email, password) {
 	return axios.post('/register', {
 		name,
 		email,
 		password,
 	});
-};
+}
 
-const login = (email, password) => {
+function login(email, password) {
 	return axios
 		.post('/login', {
 			email,
@@ -18,11 +18,11 @@ const login = (email, password) => {
 			localStorage.setItem('user', JSON.stringify(response.data));
 			return response.data;
 		});
-};
+}
 
-const logout = () => {
+function logout() {
 	localStorage.removeItem('user');
-};
+}
 
 const authService = {
 	register,
