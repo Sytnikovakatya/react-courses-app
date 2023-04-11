@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import Form from 'react-bootstrap/Form';
 import { Container, InputGroup } from 'react-bootstrap';
 
-import Header from '../Header/Header';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
@@ -32,6 +31,7 @@ export default function Login() {
 			.unwrap()
 			.then(() => {
 				navigate('/courses');
+				window.location.reload();
 			})
 			.catch(() => {
 				setLoading(false);
@@ -44,7 +44,6 @@ export default function Login() {
 
 	return (
 		<>
-			<Header />
 			<Container fluid='sm' className='w-25'>
 				<h1 className='pb-5 text-center'>Login</h1>
 				<Form onSubmit={submitLogin}>

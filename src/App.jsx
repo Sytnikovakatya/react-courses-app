@@ -7,10 +7,12 @@ import CreateCourse from './components/CreateCourse/CreateCourse';
 import Registration from './components/Registration/Registration';
 import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
+import Header from './components/Header/Header';
 
 function App() {
 	return (
 		<Router>
+			<Header />
 			<Routes>
 				<Route path='/' element={<Login />} />
 				<Route path='login' element={<Login />} />

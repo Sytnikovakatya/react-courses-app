@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 
-import Header from '../Header/Header';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
@@ -43,7 +42,6 @@ export default function Registration() {
 	};
 	return (
 		<>
-			<Header />
 			<Container fluid='sm' className='w-50'>
 				<h1 className='pb-5 text-center'>Registration</h1>
 				<Form onSubmit={submitRegistration}>
