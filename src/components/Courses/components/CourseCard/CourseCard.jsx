@@ -8,6 +8,9 @@ import Button from '../../../../common/Button/Button';
 import { getAuthorNames } from '../../../../helpers/getAuthorNames';
 import getTimeFromMins from '../../../../helpers/pipeDuration';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
+
 export default function CourseCard({
 	id,
 	title,
@@ -17,7 +20,15 @@ export default function CourseCard({
 	creationDate,
 	totalAuthorList,
 	courseList,
+	setCourseList,
 }) {
+	const handleDeleteItem = (id) => {
+		setCourseList((prevState) => {
+			const idx = prevState.findIndex((item) => item.id === id);
+			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+		});
+	};
+
 	return (
 		<>
 			<Card bg='light shadow' className='p-4 m-5'>
@@ -46,6 +57,11 @@ export default function CourseCard({
 							>
 								<Button text='Show course' />
 							</Link>
+							<Button
+								text={<FontAwesomeIcon icon={faTrash} />}
+								onClick={() => handleDeleteItem(id)}
+							/>
+							<Button text={<FontAwesomeIcon icon={faPenToSquare} />} />
 						</Card.Body>
 					</div>
 				</div>

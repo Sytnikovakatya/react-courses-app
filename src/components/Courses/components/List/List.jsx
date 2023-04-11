@@ -1,7 +1,12 @@
 import React from 'react';
 import CourseCard from '../CourseCard/CourseCard';
 
-export default function List({ courses, totalAuthorList, courseList }) {
+export default function List({
+	courses,
+	totalAuthorList,
+	courseList,
+	setCourseList,
+}) {
 	return (
 		<section>
 			{courses.map((course) => {
@@ -11,6 +16,7 @@ export default function List({ courses, totalAuthorList, courseList }) {
 							{...course}
 							totalAuthorList={totalAuthorList}
 							courseList={courseList}
+							setCourseList={setCourseList}
 						/>
 					</div>
 				);
