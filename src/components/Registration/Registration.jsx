@@ -8,7 +8,7 @@ import Input from '../../common/Input/Input';
 import Form from 'react-bootstrap/Form';
 import { Container, InputGroup } from 'react-bootstrap';
 
-import { register } from '../../features/authSlice';
+import { register } from '../../features/authenticationSlice';
 import { clearMessage } from '../../features/messageSlice';
 
 export default function Registration() {
@@ -29,7 +29,6 @@ export default function Registration() {
 	const submitRegistration = (e) => {
 		e.preventDefault();
 		setSuccessful(false);
-
 		dispatch(register({ name, email, password }))
 			.unwrap()
 			.then(() => {

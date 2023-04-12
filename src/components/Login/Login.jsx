@@ -8,7 +8,7 @@ import { Container, InputGroup } from 'react-bootstrap';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
-import { login } from '../../features/authSlice';
+import { login } from '../../features/authenticationSlice';
 import { clearMessage } from '../../features/messageSlice';
 
 export default function Login() {
