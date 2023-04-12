@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import { setMessage } from './messageSlice';
 
-import AuthService from '../services/auth.service';
+import AuthService from '../services/authentication.service';
 
 const user = localStorage.getItem('user');
 
@@ -54,6 +54,7 @@ const initialState = user
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
+	reducers: {},
 	extraReducers: (builder) => {
 		builder
 			.addCase(register.fulfilled, (state, action) => {
