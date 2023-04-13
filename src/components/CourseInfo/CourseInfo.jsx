@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import { Container, Row, Col } from 'react-bootstrap';
 
@@ -13,14 +14,13 @@ export default function CourseInfo() {
 	const [authors, setAuthors] = useState([]);
 	const { courseId } = useParams();
 
-	const location = useLocation();
-	const { totalAuthorList, courseList } = location.state;
-
+	const courses = useSelector((state) => state.courses);
+	const authorsList = useSelector((state) => state.authors);
 	useEffect(() => {
-		const courseShown = courseList.find((course) => course.id === courseId);
+		const courseShown = courses.find((course) => course.id === courseId);
 		setCourse(courseShown);
 		setAuthors(courseShown.authors);
-	}, [courseList, courseId]);
+	}, [courses, courseId]);
 
 	return (
 		<>
@@ -28,7 +28,6 @@ export default function CourseInfo() {
 				<Link to='/courses'>
 					<Button text='Back to courses' />
 				</Link>
-
 				<h1 className='text-center mb-5 pb-5'>{course.title}</h1>
 				<Row className='mb-5'>
 					<Col md={{ span: 7, offset: 1 }}>
@@ -49,7 +48,7 @@ export default function CourseInfo() {
 						</p>
 						<p>
 							<strong>Authors: </strong>
-							{getAuthorNames(authors, totalAuthorList)}
+							{getAuthorNames(authors, authorsList[0])}
 						</p>
 					</Col>
 				</Row>
