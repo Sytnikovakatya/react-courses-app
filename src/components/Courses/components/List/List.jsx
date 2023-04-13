@@ -1,23 +1,15 @@
 import React from 'react';
 import CourseCard from '../CourseCard/CourseCard';
+import { useSelector } from 'react-redux';
 
-export default function List({
-	courses,
-	totalAuthorList,
-	courseList,
-	setCourseList,
-}) {
+export default function List() {
+	const courses = useSelector((state) => state.courses);
 	return (
 		<section>
-			{courses.map((course) => {
+			{courses.map((course, id) => {
 				return (
-					<div key={course.id}>
-						<CourseCard
-							{...course}
-							totalAuthorList={totalAuthorList}
-							courseList={courseList}
-							setCourseList={setCourseList}
-						/>
+					<div key={id}>
+						<CourseCard {...course} />
 					</div>
 				);
 			})}
