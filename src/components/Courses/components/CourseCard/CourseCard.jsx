@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import Card from 'react-bootstrap/Card';
 
@@ -11,6 +13,8 @@ import getTimeFromMins from '../../../../helpers/pipeDuration';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
+import { removeCourse } from '../../../../features/coursesSlice';
+
 export default function CourseCard({
 	id,
 	title,
@@ -18,17 +22,9 @@ export default function CourseCard({
 	duration,
 	authors,
 	creationDate,
-	totalAuthorList,
-	courseList,
-	setCourseList,
 }) {
-	const handleDeleteItem = (id) => {
-		setCourseList((prevState) => {
-			const idx = prevState.findIndex((item) => item.id === id);
-			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
-		});
-	};
-
+	const authorsList = useSelector((state) => state.authors);
+	const dispatch = useDispatch();
 	return (
 		<>
 			<Card bg='light shadow' className='p-4 m-5'>
@@ -41,7 +37,7 @@ export default function CourseCard({
 						<Card.Body>
 							<Card.Text className='text-truncate'>
 								<strong>Authors: </strong>
-								{getAuthorNames(authors, totalAuthorList)}
+								{getAuthorNames(authors, authorsList[0])}
 							</Card.Text>
 							<Card.Text>
 								<strong>Duration: </strong>
@@ -51,15 +47,15 @@ export default function CourseCard({
 								<strong>Created: </strong>
 								{creationDate}
 							</Card.Text>
-							<Link
-								to={`/courses/${id}`}
-								state={{ totalAuthorList, courseList }}
-							>
+							<Link to={`/courses/${id}`}>
 								<Button text='Show course' />
 							</Link>
 							<Button
 								text={<FontAwesomeIcon icon={faTrash} />}
-								onClick={() => handleDeleteItem(id)}
+								onClick={() => {
+									dispatch(removeCourse(id));
+								}}
+								type='submit'
 							/>
 							<Button text={<FontAwesomeIcon icon={faPenToSquare} />} />
 						</Card.Body>
