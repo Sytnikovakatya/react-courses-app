@@ -1,27 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import AuthorsDataService from '../services/authors.service';
 
-const initialState = [];
-
 export const retrieveAuthors = createAsyncThunk(
 	'authors/retrieve',
 	async () => {
 		const res = await AuthorsDataService.getAuthorsAll();
-		return res.data;
+		return res.data.result;
 	}
 );
 
 const authorsSlice = createSlice({
 	name: 'authors',
-	initialState,
-	reducers: {},
+	initialState: [],
+	reducers: {
+		addAuthor(state, action) {
+			return state.push(action.payload);
+		},
+		removeAuthor: (state, action) => {
+			const itemId = action.payload;
+			return state.filter((item) => item.id !== itemId);
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(retrieveAuthors.fulfilled, (state, action) => {
 			const todo = action.payload;
-			return [...state, todo];
+			return [todo];
 		});
 	},
 });
 
-const { reducer } = authorsSlice;
-export default reducer;
+export const { addAuthor, removeAuthor } = authorsSlice.actions;
+
+export default authorsSlice.reducer;

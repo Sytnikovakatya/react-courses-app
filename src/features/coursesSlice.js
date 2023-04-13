@@ -1,27 +1,34 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import CoursesDataService from '../services/courses.service';
 
-const initialState = [];
-
 export const retrieveCourses = createAsyncThunk(
 	'courses/retrieve',
 	async () => {
-		const res = await CoursesDataService.getAll();
-		return res.data;
+		const res = await CoursesDataService.getCoursesAll();
+		return res.data.result[0];
 	}
 );
 
 const coursesSlice = createSlice({
 	name: 'courses',
-	initialState,
-	reducers: {},
+	initialState: [],
+	reducers: {
+		addCourse(state, action) {
+			return state.push(action.payload);
+		},
+		removeCourse: (state, action) => {
+			const itemId = action.payload;
+			return state.filter((item) => item.id !== itemId);
+		},
+	},
 	extraReducers: (builder) => {
 		builder.addCase(retrieveCourses.fulfilled, (state, action) => {
 			const todo = action.payload;
-			return [...state, todo];
+			return [todo];
 		});
 	},
 });
 
-const { reducer } = coursesSlice;
-export default reducer;
+export const { addCourse, removeCourse } = coursesSlice.actions;
+
+export default coursesSlice.reducer;
