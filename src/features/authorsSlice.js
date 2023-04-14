@@ -13,8 +13,9 @@ const authorsSlice = createSlice({
 	name: 'authors',
 	initialState: [],
 	reducers: {
-		addAuthor(state, action) {
-			return state.push(action.payload);
+		addAuthor: (state, action) => {
+			const newItem = action.payload;
+			state[0].push(newItem);
 		},
 		removeAuthor: (state, action) => {
 			const itemId = action.payload;
