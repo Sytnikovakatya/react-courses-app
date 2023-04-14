@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { v4 as uuidv4 } from 'uuid';
-
 import { Link, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+
+import { v4 as uuidv4 } from 'uuid';
 
 import './CreateCourse.css';
 
-import { mockedAuthorsList } from '../../helpers/mockedData';
 import pipeDuration from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
 import CourseAuthorList from './components/CourseAuthorList/CourseAuthorList';
@@ -13,7 +14,6 @@ import { isFormValid, changeHandlerNumbers } from '../../helpers/isFormValid';
 
 import Input from '../../common/Input/Input';
 import Button from '../../common/Button/Button';
-
 import {
 	Form,
 	FloatingLabel,
@@ -24,17 +24,23 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
+import { addAuthor } from '../../features/authorsSlice';
+import { addCourse } from '../../features/coursesSlice';
+
 export default function CreateCourse() {
+	const authors = useSelector((state) => state.authors);
+
 	const [title, setTitle] = useState('');
 	const [description, setDescription] = useState('');
 	const [characterLimit] = useState(2);
 	const [duration, setDuration] = useState('0');
 
 	const [authorName, setAuthorName] = useState('');
-	const [authorsList, setAuthorList] = useState(mockedAuthorsList);
+	const [authorsList, setAuthorList] = useState(authors[0]);
 	const [authorCourseList, setAuthorCourseList] = useState('');
 
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
 
 	const handleAddAuthor = (e) => {
 		e.preventDefault();
@@ -42,9 +48,8 @@ export default function CreateCourse() {
 			id: uuidv4(),
 			name: authorName,
 		};
-		if (authorName) {
-			setAuthorList((prevState) => [...prevState, newItem]);
-		}
+		setAuthorList((prevState) => [...prevState, newItem]);
+		dispatch(addAuthor(newItem));
 	};
 
 	const handleCourseList = (id) => {
@@ -74,7 +79,8 @@ export default function CreateCourse() {
 				duration: duration,
 				authors: authors,
 			};
-			navigate('/courses', { state: { courseModel, authorCourseList } });
+			navigate('/courses');
+			dispatch(addCourse(courseModel));
 		}
 	};
 	return (
@@ -154,7 +160,9 @@ export default function CreateCourse() {
 											<Button
 												text='Add author'
 												type='submit'
-												onClick={() => handleCourseList(author.id)}
+												onClick={() => {
+													handleCourseList(author.id);
+												}}
 											/>
 										</ListGroup.Item>
 									);
