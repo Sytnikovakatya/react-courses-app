@@ -5,7 +5,7 @@ import { useDispatch } from 'react-redux';
 
 import { v4 as uuidv4 } from 'uuid';
 
-import './CreateCourse.css';
+import './CourseForm.css';
 
 import pipeDuration from '../../helpers/pipeDuration';
 import { dateGenerator } from '../../helpers/dateGenerator';
