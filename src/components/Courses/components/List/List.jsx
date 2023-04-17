@@ -1,17 +1,21 @@
 import React from 'react';
 import CourseCard from '../CourseCard/CourseCard';
+import { useSelector } from 'react-redux';
 
-export default function List({ courses, totalAuthorList, courseList }) {
+export default function List({ searchBarInputValue }) {
+	const courses = useSelector((state) => state.courses);
+	const filtredResult = courses.filter((item) => {
+		return Object.values(item)
+			.join('')
+			.toLowerCase()
+			.includes(searchBarInputValue.toLowerCase());
+	});
 	return (
 		<section>
-			{courses.map((course) => {
+			{filtredResult.map((course, id) => {
 				return (
-					<div key={course.id}>
-						<CourseCard
-							{...course}
-							totalAuthorList={totalAuthorList}
-							courseList={courseList}
-						/>
+					<div key={id}>
+						<CourseCard {...course} />
 					</div>
 				);
 			})}

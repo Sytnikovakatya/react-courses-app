@@ -1,15 +1,19 @@
+import React, { useCallback } from 'react';
+import { useDispatch } from 'react-redux';
+
 import Button from '../../common/Button/Button';
 import { Link } from 'react-router-dom';
-import { useLocalStorage } from '../../hooks/useLocalStorage';
+
+import { logout } from '../../features/authenticationSlice';
 
 export default function LogoutButton() {
-	const { removeItem } = useLocalStorage();
-	const logout = () => {
-		removeItem();
-	};
+	const dispatch = useDispatch();
+	const logOut = useCallback(() => {
+		dispatch(logout());
+	}, [dispatch]);
 	return (
 		<Link to='/login'>
-			<Button text='Logout' onClick={logout} />
+			<Button text='Logout' onClick={logOut} />
 		</Link>
 	);
 }
