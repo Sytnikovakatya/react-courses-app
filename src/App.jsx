@@ -15,6 +15,8 @@ import Header from './components/Header/Header';
 import { retrieveCourses } from './features/coursesSlice';
 import { retrieveAuthors } from './features/authorsSlice';
 
+import PrivateRoute from './components/PrivateRouter/PrivateRouter';
+
 function App() {
 	const dispatch = useDispatch();
 	useEffect(() => {
@@ -25,11 +27,13 @@ function App() {
 		<Router>
 			<Header />
 			<Routes>
+				<Route element={<PrivateRoute />}>
+					<Route path='courses/add' element={<CourseForm />} />
+				</Route>
 				<Route path='/' element={<Login />} />
 				<Route path='login' element={<Login />} />
 				<Route path='registration' element={<Registration />} />
 				<Route path='courses' element={<Courses />} />
-				<Route path='courses/add' element={<CourseForm />} />
 				<Route path='courses/:courseId' element={<CourseInfo />} />
 			</Routes>
 		</Router>
