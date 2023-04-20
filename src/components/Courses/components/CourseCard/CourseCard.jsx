@@ -23,8 +23,9 @@ export default function CourseCard({
 	authors,
 	creationDate,
 }) {
-	const authorsList = useSelector((state) => state.authors);
 	const dispatch = useDispatch();
+	const authorsList = useSelector((state) => state.authors);
+
 	return (
 		<>
 			<Card bg='light shadow' className='p-4 m-5'>
@@ -50,6 +51,10 @@ export default function CourseCard({
 							<Link to={`/courses/${id}`}>
 								<Button text='Show course' />
 							</Link>
+
+							<Link to={`/courses/update/${id}`}>
+								<Button text={<FontAwesomeIcon icon={faPenToSquare} />} />
+							</Link>
 							<Button
 								text={<FontAwesomeIcon icon={faTrash} />}
 								onClick={() => {
@@ -57,7 +62,6 @@ export default function CourseCard({
 								}}
 								type='submit'
 							/>
-							<Button text={<FontAwesomeIcon icon={faPenToSquare} />} />
 						</Card.Body>
 					</div>
 				</div>
