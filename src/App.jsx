@@ -12,8 +12,8 @@ import Login from './components/Login/Login';
 import CourseInfo from './components/CourseInfo/CourseInfo';
 import Header from './components/Header/Header';
 
-import { retrieveCourses } from './features/coursesSlice';
-import { retrieveAuthors } from './features/authorsSlice';
+import { retrieveCourses } from './state/coursesSlice';
+import { retrieveAuthors } from './state/authorsSlice';
 
 import PrivateRoute from './components/PrivateRouter/PrivateRouter';
 
