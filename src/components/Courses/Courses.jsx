@@ -7,7 +7,8 @@ import List from './components/List/List';
 
 export default function Courses() {
 	const [searchBarInputValue, setSearchBarInputValue] = useState('');
-	const { user: currentUser } = useSelector((state) => state.auth);
+
+	const { token: currentUser } = useSelector((state) => state.user);
 
 	const searchItems = (event) => {
 		event.preventDefault();
