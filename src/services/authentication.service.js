@@ -20,8 +20,9 @@ function login(email, password) {
 		});
 }
 
-function logout() {
+function logout(token) {
 	localStorage.removeItem('user');
+	return axios.delete('/logout', { token });
 }
 
 const authService = {
