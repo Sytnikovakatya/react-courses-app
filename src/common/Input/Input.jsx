@@ -9,6 +9,7 @@ export default function Input({
 	id,
 	isInvalid,
 	onInput,
+	value,
 }) {
 	return (
 		<>
@@ -20,6 +21,7 @@ export default function Input({
 				id={id}
 				isInvalid={isInvalid}
 				onInput={onInput}
+				value={value}
 			/>
 		</>
 	);
