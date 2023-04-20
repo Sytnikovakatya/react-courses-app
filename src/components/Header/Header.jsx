@@ -4,8 +4,8 @@ import { useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 
-import Logo from './components/Logo/Logo';
-import LogoutButton from '../Login/LogoutButton';
+import Logo from './components/Logo';
+import LogoutButton from './components/LogoutButton';
 
 export default function Header() {
 	const { name: currentUser } = useSelector((state) => state.user);
