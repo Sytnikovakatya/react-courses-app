@@ -1,4 +1,4 @@
-import axios from '../components/api/axios';
+import axios from '../api/axios';
 
 function register(name, email, password) {
 	return axios.post('/register', {
@@ -22,7 +22,11 @@ function login(email, password) {
 
 function logout(token) {
 	localStorage.removeItem('user');
-	return axios.delete('/logout', { token });
+	return axios.delete('/logout', {
+		headers: {
+			Authorization: token,
+		},
+	});
 }
 
 const authService = {
