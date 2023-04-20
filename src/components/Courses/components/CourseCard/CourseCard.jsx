@@ -13,7 +13,7 @@ import getTimeFromMins from '../../../../helpers/pipeDuration';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { removeCourse } from '../../../../features/coursesSlice';
+import { removeCourse } from '../../../../state/coursesSlice';
 
 export default function CourseCard({
 	id,
