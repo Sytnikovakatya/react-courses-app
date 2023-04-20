@@ -13,13 +13,14 @@ import { clearMessage } from '../../features/messageSlice';
 
 export default function Login() {
 	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const [email, setUserEmail] = useState('');
 	const [password, setPassword] = useState('');
-
 	const [loading, setLoading] = useState(false);
-	const { isLoggedIn } = useSelector((state) => state.auth);
+
+	const { isLoggedIn } = useSelector((state) => state.user);
 	const { message } = useSelector((state) => state.message);
-	const dispatch = useDispatch();
 
 	useEffect(() => {
 		dispatch(clearMessage());
@@ -31,7 +32,6 @@ export default function Login() {
 			.unwrap()
 			.then(() => {
 				navigate('/courses');
-				window.location.reload();
 			})
 			.catch(() => {
 				setLoading(false);
@@ -41,7 +41,6 @@ export default function Login() {
 	if (isLoggedIn) {
 		return <Navigate to='/courses' />;
 	}
-
 	return (
 		<>
 			<Container fluid='sm' className='w-25'>
