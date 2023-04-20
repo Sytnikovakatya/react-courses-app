@@ -1,14 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit';
-import authReducer from './features/authenticationSlice';
-import messageReducer from './features/messageSlice';
-import coursesReducer from './features/coursesSlice';
-import authorsReducer from './features/authorsSlice';
+import user from './features/authenticationSlice';
+import message from './features/messageSlice';
+import courses from './features/coursesSlice';
+import authors from './features/authorsSlice';
 
 const reducer = {
-	courses: coursesReducer,
-	authors: authorsReducer,
-	auth: authReducer,
-	message: messageReducer,
+	courses,
+	authors,
+	user,
+	message,
 };
 
 export const store = configureStore({
