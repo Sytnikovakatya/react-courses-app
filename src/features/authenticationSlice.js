@@ -3,8 +3,6 @@ import { setMessage } from './messageSlice';
 
 import AuthService from '../services/authentication.service';
 
-const user = localStorage.getItem('user');
-
 export const register = createAsyncThunk(
 	'auth/register',
 	async ({ name, email, password }, thunkAPI) => {
@@ -43,16 +41,20 @@ export const login = createAsyncThunk(
 	}
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
-	await AuthService.logout();
+export const logout = createAsyncThunk('auth/logout', async ({ token }) => {
+	await AuthService.logout(token);
 });
 
-const initialState = user
-	? { isLoggedIn: true, user }
-	: { isLoggedIn: false, user: null };
+const initialState = {
+	isLoggedIn: false,
+	name: '',
+	email: '',
+	token: null,
+	role: '',
+};
 
 const authSlice = createSlice({
-	name: 'auth',
+	name: 'user',
 	initialState,
 	reducers: {},
 	extraReducers: (builder) => {
@@ -65,15 +67,17 @@ const authSlice = createSlice({
 			})
 			.addCase(login.fulfilled, (state, action) => {
 				state.isLoggedIn = true;
-				state.user = action.payload.user;
+				state.token = action.payload.user.result;
+				state.email = action.payload.user.user.email;
+				state.name = action.payload.user.user.name;
 			})
 			.addCase(login.rejected, (state, action) => {
 				state.isLoggedIn = false;
-				state.user = null;
+				state.token = null;
 			})
 			.addCase(logout.fulfilled, (state, action) => {
 				state.isLoggedIn = false;
-				state.user = null;
+				state.token = null;
 			});
 	},
 });
