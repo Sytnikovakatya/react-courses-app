@@ -19,6 +19,7 @@ import PrivateRoute from './components/PrivateRouter/PrivateRouter';
 
 function App() {
 	const dispatch = useDispatch();
+
 	useEffect(() => {
 		dispatch(retrieveCourses());
 		dispatch(retrieveAuthors());
@@ -29,6 +30,7 @@ function App() {
 			<Routes>
 				<Route element={<PrivateRoute />}>
 					<Route path='courses/add' element={<CourseForm />} />
+					<Route path='/courses/update/:courseId' element={<CourseForm />} />
 				</Route>
 				<Route path='/' element={<Login />} />
 				<Route path='login' element={<Login />} />
