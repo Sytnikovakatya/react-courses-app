@@ -9,6 +9,16 @@ export const retrieveAuthors = createAsyncThunk(
 	}
 );
 
+export const createAuthor = createAsyncThunk(
+	'authors/add',
+	async ({ name }) => {
+		const res = await AuthorsDataService.create(name);
+		console.log('addauthor');
+		console.log(res.data);
+		return res.data;
+	}
+);
+
 const authorsSlice = createSlice({
 	name: 'authors',
 	initialState: [],
@@ -23,10 +33,16 @@ const authorsSlice = createSlice({
 		},
 	},
 	extraReducers: (builder) => {
-		builder.addCase(retrieveAuthors.fulfilled, (state, action) => {
-			const todo = action.payload;
-			return [todo];
-		});
+		builder
+			.addCase(retrieveAuthors.fulfilled, (state, action) => {
+				const todo = action.payload;
+				return [todo];
+			})
+			.addCase(createAuthor.fulfilled, (state, action) => {
+				const todo = action.payload;
+				console.log(todo);
+				return state.push(todo);
+			});
 	},
 });
 
