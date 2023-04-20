@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import Button from '../../common/Button/Button';
 import { Link } from 'react-router-dom';
 
-import { logout } from '../../features/authenticationSlice';
+import { logout } from '../../state/authenticationSlice';
 
 export default function LogoutButton() {
 	const dispatch = useDispatch();

@@ -8,8 +8,8 @@ import Input from '../../common/Input/Input';
 import Form from 'react-bootstrap/Form';
 import { Container, InputGroup } from 'react-bootstrap';
 
-import { register } from '../../features/authenticationSlice';
-import { clearMessage } from '../../features/messageSlice';
+import { register } from '../../state/authenticationSlice';
+import { clearMessage } from '../../state/messageSlice';
 
 export default function Registration() {
 	const [name, setUserName] = useState('');
