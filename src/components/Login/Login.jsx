@@ -8,8 +8,8 @@ import { Container, InputGroup } from 'react-bootstrap';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
-import { login } from '../../features/authenticationSlice';
-import { clearMessage } from '../../features/messageSlice';
+import { login } from '../../state/authenticationSlice';
+import { clearMessage } from '../../state/messageSlice';
 
 export default function Login() {
 	const navigate = useNavigate();
