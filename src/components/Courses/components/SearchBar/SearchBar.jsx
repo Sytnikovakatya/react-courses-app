@@ -1,4 +1,6 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 import Button from '../../../../common/Button/Button';
 import Input from '../../../../common/Input/Input';
@@ -8,9 +10,9 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
-import { Link } from 'react-router-dom';
-
 export default function SearchBar({ searchItems }) {
+	const { role } = useSelector((state) => state.user);
+
 	return (
 		<>
 			<Container>
@@ -27,9 +29,11 @@ export default function SearchBar({ searchItems }) {
 						</InputGroup>
 					</Col>
 					<Col md={{ span: 3, offset: 4 }}>
-						<Link to='/courses/add'>
-							<Button text='Add new course' type='submit' />
-						</Link>
+						{role === 'admin' && (
+							<Link to='/courses/add'>
+								<Button text='Add new course' type='submit' />
+							</Link>
+						)}
 					</Col>
 				</Row>
 			</Container>
