@@ -11,6 +11,7 @@ export default function Courses() {
 	const [searchBarInputValue, setSearchBarInputValue] = useState('');
 
 	const { token: currentUser } = useSelector((state) => state.user);
+
 	useEffect(() => {
 		dispatch(getUserRole(currentUser));
 	});
