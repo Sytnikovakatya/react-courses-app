@@ -37,7 +37,7 @@ export default function CourseForm() {
 
 	const [characterLimit] = useState(2);
 	const [authorName, setAuthorName] = useState('');
-	const [authorsList, setAuthorList] = useState(authors[0]);
+	const [authorsList, setAuthorList] = useState(authors);
 	const [authorCourseList, setAuthorCourseList] = useState('');
 
 	const initialCourseState = {
@@ -48,10 +48,10 @@ export default function CourseForm() {
 		authors: [],
 	};
 	const [currentCourse, setCurrentCourse] = useState(initialCourseState);
-	const { description, title, duration } = currentCourse;
+	const { title, description, duration } = currentCourse;
 
 	const getCourseUpdate = (courseId) => {
-		const courseUpdate = courses[0].find((course) => course.id === courseId);
+		const courseUpdate = courses.find((course) => course.id === courseId);
 		const list = authorsList.find(
 			(author) => author.id === courseUpdate.authors[0]
 		);
