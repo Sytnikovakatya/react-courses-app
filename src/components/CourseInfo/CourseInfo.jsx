@@ -19,7 +19,7 @@ export default function CourseInfo() {
 	const authorsList = useSelector((state) => state.authors);
 
 	useEffect(() => {
-		const courseShown = courses[0].find((course) => course.id === courseId);
+		const courseShown = courses.find((course) => course.id === courseId);
 		setCourse(courseShown);
 		setAuthors(courseShown.authors);
 	}, [courses, courseId]);
@@ -50,7 +50,7 @@ export default function CourseInfo() {
 						</p>
 						<p>
 							<strong>Authors: </strong>
-							{getAuthorNames(authors, authorsList[0])}
+							{getAuthorNames(authors, authorsList)}
 						</p>
 					</Col>
 				</Row>
