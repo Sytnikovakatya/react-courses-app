@@ -6,7 +6,7 @@ export default function List({ searchBarInputValue }) {
 	const courses = useSelector((state) => state.courses);
 
 	const filtredResult = Array.isArray(courses)
-		? courses[0].filter((item) => {
+		? courses.filter((item) => {
 				return Object.values(item)
 					.join('')
 					.toLowerCase()
