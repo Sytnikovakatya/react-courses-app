@@ -10,14 +10,16 @@ import pipeDuration from '../../helpers/pipeDuration';
 import { getAuthorNames } from '../../helpers/getAuthorNames';
 
 export default function CourseInfo() {
+	const { courseId } = useParams();
+
 	const [course, setCourse] = useState([]);
 	const [authors, setAuthors] = useState([]);
-	const { courseId } = useParams();
 
 	const courses = useSelector((state) => state.courses);
 	const authorsList = useSelector((state) => state.authors);
+
 	useEffect(() => {
-		const courseShown = courses.find((course) => course.id === courseId);
+		const courseShown = courses[0].find((course) => course.id === courseId);
 		setCourse(courseShown);
 		setAuthors(courseShown.authors);
 	}, [courses, courseId]);
