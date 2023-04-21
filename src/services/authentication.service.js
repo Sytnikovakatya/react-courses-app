@@ -29,10 +29,19 @@ function logout(token) {
 	});
 }
 
+function getUser(token) {
+	return axios.get('/users/me', {
+		headers: {
+			Authorization: token,
+		},
+	});
+}
+
 const authService = {
 	register,
 	login,
 	logout,
+	getUser,
 };
 
 export default authService;

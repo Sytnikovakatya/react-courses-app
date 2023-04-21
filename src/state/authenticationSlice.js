@@ -49,6 +49,15 @@ export const logout = createAsyncThunk('auth/logout', async (token) => {
 	}
 });
 
+export const getUserRole = createAsyncThunk('auth/me', async (token) => {
+	try {
+		const response = await AuthService.getUser(token);
+		return response.data.result.role;
+	} catch (e) {
+		console.log(e);
+	}
+});
+
 const initialState = {
 	isLoggedIn: false,
 	name: '',
@@ -82,6 +91,9 @@ const authSlice = createSlice({
 			.addCase(logout.fulfilled, (state, action) => {
 				state.isLoggedIn = false;
 				state.token = null;
+			})
+			.addCase(getUserRole.fulfilled, (state, action) => {
+				state.role = action.payload;
 			});
 	},
 });
