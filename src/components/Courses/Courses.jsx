@@ -7,19 +7,20 @@ import { getUserRole } from '../../state/authenticationSlice';
 
 export default function Courses() {
 	const dispatch = useDispatch();
+
 	const [searchBarInputValue, setSearchBarInputValue] = useState('');
 
 	const { token } = useSelector((state) => state.user);
-
-	useEffect(() => {
-		dispatch(getUserRole(token));
-	});
 
 	const searchItems = (event) => {
 		event.preventDefault();
 		let searchValue = event.target.value;
 		setSearchBarInputValue(searchValue);
 	};
+
+	useEffect(() => {
+		dispatch(getUserRole(token));
+	});
 
 	return (
 		<>

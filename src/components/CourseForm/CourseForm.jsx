@@ -3,8 +3,6 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import './CourseForm.css';
 
 import pipeDuration from '../../helpers/pipeDuration';
@@ -28,9 +26,10 @@ import { createAuthor } from '../../state/authorsSlice';
 import { updateCourse } from '../../state/coursesSlice';
 
 export default function CourseForm() {
-	const { courseId } = useParams();
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
+
+	const { courseId } = useParams();
 
 	const courses = useSelector((state) => state.courses);
 	const authors = useSelector((state) => state.authors);
@@ -46,6 +45,7 @@ export default function CourseForm() {
 		duration: '',
 		authors: [],
 	};
+
 	const [currentCourse, setCurrentCourse] = useState(initialCourseState);
 	const { title, description, duration } = currentCourse;
 
@@ -54,28 +54,18 @@ export default function CourseForm() {
 		const author = authorsList.find(
 			(author) => author.id === courseUpdate.authors[0]
 		);
-
 		setAuthorCourseList((prevState) => [...prevState, author]);
 
 		setAuthorList((prevState) => {
 			const idx = prevState.findIndex((item) => item.id === author.id);
 			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
 		});
-
 		setCurrentCourse(courseUpdate);
 	};
 
-	useEffect(() => {
-		if (courseId) getCourseUpdate(courseId);
-	}, [courseId]);
-
 	const handleAddAuthor = (e) => {
 		e.preventDefault();
-		const newItem = {
-			id: uuidv4(),
-			name: authorName,
-		};
-		setAuthorList((prevState) => [...prevState, newItem]);
+
 		dispatch(createAuthor(authorName));
 	};
 
@@ -138,6 +128,10 @@ export default function CourseForm() {
 				});
 		}
 	};
+
+	useEffect(() => {
+		if (courseId) getCourseUpdate(courseId);
+	}, [courseId]);
 
 	return (
 		<>

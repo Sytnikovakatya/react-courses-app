@@ -21,10 +21,6 @@ export default function Login() {
 
 	const { message } = useSelector((state) => state.message);
 
-	useEffect(() => {
-		dispatch(clearMessage());
-	}, [dispatch]);
-
 	const submitLogin = (e) => {
 		e.preventDefault();
 		dispatch(login({ email, password }))
@@ -36,6 +32,10 @@ export default function Login() {
 				setLoading(false);
 			});
 	};
+
+	useEffect(() => {
+		dispatch(clearMessage());
+	}, [dispatch]);
 
 	return (
 		<>

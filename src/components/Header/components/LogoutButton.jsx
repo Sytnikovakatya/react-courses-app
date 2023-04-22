@@ -8,6 +8,7 @@ import { logout } from '../../../state/authenticationSlice';
 
 export default function LogoutButton() {
 	const dispatch = useDispatch();
+
 	const { token } = useSelector((state) => state.user);
 
 	const logOut = useCallback(() => {

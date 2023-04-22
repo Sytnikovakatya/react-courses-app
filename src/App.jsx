@@ -33,6 +33,9 @@ function App() {
 		<Router>
 			<Header />
 			<Routes>
+				<Route path='/' element={<Login />} />
+				<Route path='login' element={<Login />} />
+				<Route path='registration' element={<Registration />} />
 				<Route element={<PrivateRoute user={admin} redirectPath={'courses'} />}>
 					<Route path='courses/add' element={<CourseForm />} />
 					<Route path='courses/update/:courseId' element={<CourseForm />} />
@@ -43,9 +46,6 @@ function App() {
 					<Route path='courses' element={<Courses />} />
 					<Route path='courses/:courseId' element={<CourseInfo />} />
 				</Route>
-				<Route path='/' element={<Login />} />
-				<Route path='login' element={<Login />} />
-				<Route path='registration' element={<Registration />} />
 			</Routes>
 		</Router>
 	);
