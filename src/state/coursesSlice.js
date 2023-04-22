@@ -22,16 +22,17 @@ export const deleteCourse = createAsyncThunk(
 	}
 );
 export const createCourse = createAsyncThunk(
-	'courses/create',
-	async ({ title, description, duration, authors }) => {
-		const res = await CoursesDataService.create({
-			title,
-			description,
-			duration,
-			authors,
-		});
-		console.log(res.data);
-		return res.data.result;
+	'courses/add',
+	async ({ data }) => {
+		console.log(data);
+		const token = JSON.parse(localStorage.getItem('token'));
+		try {
+			const res = await CoursesDataService.create(data, token);
+			console.log(res.data.result);
+			return res.data.result;
+		} catch (e) {
+			console.log(e);
+		}
 	}
 );
 
@@ -52,10 +53,6 @@ const coursesSlice = createSlice({
 	name: 'courses',
 	initialState: [],
 	reducers: {
-		addCourse: (state, action) => {
-			const newItem = action.payload;
-			state.push(newItem);
-		},
 		removeCourse: (state, action) => {
 			const itemId = action.payload;
 			return state.filter((item) => item.id !== itemId);

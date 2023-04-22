@@ -8,7 +8,6 @@ import { v4 as uuidv4 } from 'uuid';
 import './CourseForm.css';
 
 import pipeDuration from '../../helpers/pipeDuration';
-import { dateGenerator } from '../../helpers/dateGenerator';
 import CourseAuthorList from './components/CourseAuthorList/CourseAuthorList';
 import { isFormValid, changeHandlerNumbers } from '../../helpers/isFormValid';
 
@@ -24,7 +23,7 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-import { addCourse } from '../../state/coursesSlice';
+import { createCourse } from '../../state/coursesSlice';
 import { createAuthor } from '../../state/authorsSlice';
 import { updateCourse } from '../../state/coursesSlice';
 
@@ -102,43 +101,41 @@ export default function CourseForm() {
 		}));
 	};
 
+	const getCourseModel = () => {
+		const authors = authorCourseList.map((author) => {
+			return author.id;
+		});
+		const courseModel = {
+			title: title,
+			description: description,
+			duration: parseFloat(duration),
+			authors: authors,
+		};
+		return courseModel;
+	};
+
 	const submitCourse = () => {
 		if (isFormValid(description, title, duration, authorCourseList)) {
-			const authors = authorCourseList.map((author) => {
-				return author.id;
-			});
-			const courseModel = {
-				id: uuidv4(),
-				title: title,
-				description: description,
-				creationDate: dateGenerator(new Date()),
-				duration: duration,
-				authors: authors,
-			};
-			dispatch(addCourse(courseModel));
-			navigate('/courses');
+			dispatch(createCourse({ data: getCourseModel() }))
+				.unwrap()
+				.then(() => {
+					navigate('/courses');
+				});
 		}
 	};
 
 	const submitUpdating = () => {
 		if (isFormValid(description, title, duration, authorCourseList)) {
-			const authors = authorCourseList.map((author) => {
-				return author.id;
-			});
-			const courseModel = {
-				title: title,
-				description: description,
-				duration: duration,
-				authors: authors,
-			};
-
 			dispatch(
 				updateCourse({
 					id: currentCourse.id,
-					data: courseModel,
+					data: getCourseModel(),
 				})
-			);
-			navigate('/courses');
+			)
+				.unwrap()
+				.then(() => {
+					navigate('/courses');
+				});
 		}
 	};
 
