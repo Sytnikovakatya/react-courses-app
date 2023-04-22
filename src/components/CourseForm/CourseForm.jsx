@@ -121,23 +121,25 @@ export default function CourseForm() {
 	};
 
 	const submitUpdating = () => {
-		const authors = authorCourseList.map((author) => {
-			return author.id;
-		});
-		const courseModel = {
-			title: title,
-			description: description,
-			duration: duration,
-			authors: authors,
-		};
+		if (isFormValid(description, title, duration, authorCourseList)) {
+			const authors = authorCourseList.map((author) => {
+				return author.id;
+			});
+			const courseModel = {
+				title: title,
+				description: description,
+				duration: duration,
+				authors: authors,
+			};
 
-		dispatch(
-			updateCourse({
-				id: currentCourse.id,
-				data: courseModel,
-			})
-		);
-		navigate('/courses');
+			dispatch(
+				updateCourse({
+					id: currentCourse.id,
+					data: courseModel,
+				})
+			);
+			navigate('/courses');
+		}
 	};
 
 	return (
