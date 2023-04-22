@@ -26,6 +26,7 @@ import {
 
 import { addCourse } from '../../state/coursesSlice';
 import { createAuthor } from '../../state/authorsSlice';
+import { updateCourse } from '../../state/coursesSlice';
 
 export default function CourseForm() {
 	const { courseId } = useParams();
@@ -43,7 +44,6 @@ export default function CourseForm() {
 	const initialCourseState = {
 		title: '',
 		description: '',
-		creationDate: null,
 		duration: '',
 		authors: [],
 	};
@@ -117,10 +117,11 @@ export default function CourseForm() {
 			navigate('/courses');
 		}
 	};
-	const updateCourse = () => {
-		console.log('Update');
-		console.log(currentCourse);
+
+	const submitUpdating = () => {
+		dispatch(updateCourse({ id: currentCourse.id, data: currentCourse }));
 	};
+
 	return (
 		<>
 			<Container className='create-course shadow'>
@@ -145,7 +146,7 @@ export default function CourseForm() {
 								<Button
 									text='Update course'
 									type='submit'
-									onClick={updateCourse}
+									onClick={submitUpdating}
 								/>
 							) : (
 								<Button

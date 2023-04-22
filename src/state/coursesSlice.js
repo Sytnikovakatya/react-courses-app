@@ -11,10 +11,14 @@ export const retrieveCourses = createAsyncThunk(
 
 export const deleteCourse = createAsyncThunk(
 	'courses/delete',
-	async ({ id }) => {
-		const res = await CoursesDataService.remove(id);
-		console.log(res.data);
-		return res.data.result;
+	async (id, token) => {
+		try {
+			const res = await CoursesDataService.remove(id, token);
+			console.log(res.data);
+			return res.data.result;
+		} catch (e) {
+			console.log(e);
+		}
 	}
 );
 export const createCourse = createAsyncThunk(
@@ -28,6 +32,19 @@ export const createCourse = createAsyncThunk(
 		});
 		console.log(res.data);
 		return res.data.result;
+	}
+);
+
+export const updateCourse = createAsyncThunk(
+	'courses/update',
+	async ({ id, data }) => {
+		const token = JSON.parse(localStorage.getItem('token'));
+		try {
+			const res = await CoursesDataService.update(id, data, token);
+			return res.data.result;
+		} catch (e) {
+			console.log(e);
+		}
 	}
 );
 
@@ -48,15 +65,24 @@ const coursesSlice = createSlice({
 		builder
 			.addCase(retrieveCourses.fulfilled, (state, action) => {
 				const todo = action.payload;
-				return [todo];
+				return todo;
 			})
 			.addCase(deleteCourse.fulfilled, (state, action) => {
-				let index = state.findIndex(({ id }) => id === action.payload.id);
-				state.splice(index, 1);
+				/*let index = state.findIndex(({ id }) => id === action.payload.id);
+				state.splice(index, 1);*/ console.log(action.payload);
 			})
 			.addCase(createCourse.fulfilled, (state, action) => {
 				const todo = action.payload;
-				return state.push(todo);
+				state.push(todo);
+			})
+			.addCase(updateCourse.fulfilled, (state, action) => {
+				const index = state.findIndex(
+					(courses) => courses.id === action.payload.id
+				);
+				state[index] = {
+					...state[index],
+					...action.payload,
+				};
 			});
 	},
 });
