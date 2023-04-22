@@ -39,7 +39,7 @@ export default function CourseForm() {
 	const [characterLimit] = useState(2);
 	const [authorName, setAuthorName] = useState('');
 	const [authorsList, setAuthorList] = useState(authors);
-	const [authorCourseList, setAuthorCourseList] = useState('');
+	const [authorCourseList, setAuthorCourseList] = useState([]);
 
 	const initialCourseState = {
 		title: '',
@@ -52,15 +52,17 @@ export default function CourseForm() {
 
 	const getCourseUpdate = (courseId) => {
 		const courseUpdate = courses.find((course) => course.id === courseId);
-		const list = authorsList.find(
+		const author = authorsList.find(
 			(author) => author.id === courseUpdate.authors[0]
 		);
 
-		setAuthorCourseList((prevState) => [...prevState, list]);
+		setAuthorCourseList((prevState) => [...prevState, author]);
+
 		setAuthorList((prevState) => {
-			const idx = prevState.findIndex((item) => item.id === list.id);
+			const idx = prevState.findIndex((item) => item.id === author.id);
 			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
 		});
+
 		setCurrentCourse(courseUpdate);
 	};
 
@@ -119,7 +121,23 @@ export default function CourseForm() {
 	};
 
 	const submitUpdating = () => {
-		dispatch(updateCourse({ id: currentCourse.id, data: currentCourse }));
+		const authors = authorCourseList.map((author) => {
+			return author.id;
+		});
+		const courseModel = {
+			title: title,
+			description: description,
+			duration: duration,
+			authors: authors,
+		};
+
+		dispatch(
+			updateCourse({
+				id: currentCourse.id,
+				data: courseModel,
+			})
+		);
+		navigate('/courses');
 	};
 
 	return (
