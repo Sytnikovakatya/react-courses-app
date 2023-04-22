@@ -16,12 +16,13 @@ function login(email, password) {
 		})
 		.then((response) => {
 			localStorage.setItem('user', JSON.stringify(response.data));
+			localStorage.setItem('token', JSON.stringify(response.data.result));
 			return response.data;
 		});
 }
 
 function logout(token) {
-	localStorage.removeItem('user');
+	localStorage.clear();
 	return axios.delete('/logout', {
 		headers: {
 			Authorization: token,
