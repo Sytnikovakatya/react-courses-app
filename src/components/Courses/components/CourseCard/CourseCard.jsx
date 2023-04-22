@@ -26,7 +26,7 @@ export default function CourseCard({
 	const dispatch = useDispatch();
 
 	const authorsList = useSelector((state) => state.authors);
-	const { token, role } = useSelector((state) => state.user);
+	const { role } = useSelector((state) => state.user);
 
 	return (
 		<>
@@ -61,7 +61,7 @@ export default function CourseCard({
 									<Button
 										text={<FontAwesomeIcon icon={faTrash} />}
 										onClick={() => {
-											dispatch(deleteCourse(id, token));
+											dispatch(deleteCourse({ id }));
 										}}
 										type='submit'
 									/>
