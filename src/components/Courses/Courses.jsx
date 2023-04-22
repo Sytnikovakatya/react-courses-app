@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { Navigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import SearchBar from './components/SearchBar/SearchBar';
@@ -10,10 +9,10 @@ export default function Courses() {
 	const dispatch = useDispatch();
 	const [searchBarInputValue, setSearchBarInputValue] = useState('');
 
-	const { token: currentUser } = useSelector((state) => state.user);
+	const { token } = useSelector((state) => state.user);
 
 	useEffect(() => {
-		dispatch(getUserRole(currentUser));
+		dispatch(getUserRole(token));
 	});
 
 	const searchItems = (event) => {
@@ -22,14 +21,10 @@ export default function Courses() {
 		setSearchBarInputValue(searchValue);
 	};
 
-	if (!currentUser) {
-		return <Navigate to='/login' />;
-	} else {
-		return (
-			<>
-				<SearchBar searchItems={searchItems} />
-				<List searchBarInputValue={searchBarInputValue} />
-			</>
-		);
-	}
+	return (
+		<>
+			<SearchBar searchItems={searchItems} />
+			<List searchBarInputValue={searchBarInputValue} />
+		</>
+	);
 }

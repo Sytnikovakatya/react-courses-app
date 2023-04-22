@@ -1,6 +1,8 @@
 import { Outlet, Navigate } from 'react-router-dom';
 
-export default function PrivateRoute() {
-	let auth = { token: false };
-	return auth.token ? <Outlet /> : <Navigate to='/courses' />;
+export default function PrivateRoute({ user, redirectPath }) {
+	if (!user) {
+		return <Navigate to={redirectPath} replace />;
+	}
+	return <Outlet />;
 }

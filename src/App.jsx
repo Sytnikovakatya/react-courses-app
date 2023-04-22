@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,23 +20,32 @@ import PrivateRoute from './components/PrivateRouter/PrivateRouter';
 function App() {
 	const dispatch = useDispatch();
 
+	const { role } = useSelector((state) => state.user);
+	const { isLoggedIn } = useSelector((state) => state.user);
+	const admin = role === 'admin';
+
 	useEffect(() => {
 		dispatch(retrieveCourses());
 		dispatch(retrieveAuthors());
 	}, [dispatch]);
+
 	return (
 		<Router>
 			<Header />
 			<Routes>
-				<Route element={<PrivateRoute />}>
+				<Route element={<PrivateRoute user={admin} redirectPath={'courses'} />}>
 					<Route path='courses/add' element={<CourseForm />} />
-					<Route path='/courses/update/:courseId' element={<CourseForm />} />
+					<Route path='courses/update/:courseId' element={<CourseForm />} />
+				</Route>
+				<Route
+					element={<PrivateRoute user={isLoggedIn} redirectPath={'login'} />}
+				>
+					<Route path='courses' element={<Courses />} />
+					<Route path='courses/:courseId' element={<CourseInfo />} />
 				</Route>
 				<Route path='/' element={<Login />} />
 				<Route path='login' element={<Login />} />
 				<Route path='registration' element={<Registration />} />
-				<Route path='courses' element={<Courses />} />
-				<Route path='courses/:courseId' element={<CourseInfo />} />
 			</Routes>
 		</Router>
 	);
