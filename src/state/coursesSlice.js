@@ -11,10 +11,10 @@ export const retrieveCourses = createAsyncThunk(
 
 export const deleteCourse = createAsyncThunk(
 	'courses/delete',
-	async (id, token) => {
+	async ({ id }) => {
+		const token = JSON.parse(localStorage.getItem('token'));
 		try {
 			const res = await CoursesDataService.remove(id, token);
-			console.log(res.data);
 			return res.data.result;
 		} catch (e) {
 			console.log(e);
@@ -24,11 +24,9 @@ export const deleteCourse = createAsyncThunk(
 export const createCourse = createAsyncThunk(
 	'courses/add',
 	async ({ data }) => {
-		console.log(data);
 		const token = JSON.parse(localStorage.getItem('token'));
 		try {
 			const res = await CoursesDataService.create(data, token);
-			console.log(res.data.result);
 			return res.data.result;
 		} catch (e) {
 			console.log(e);
@@ -65,8 +63,8 @@ const coursesSlice = createSlice({
 				return todo;
 			})
 			.addCase(deleteCourse.fulfilled, (state, action) => {
-				/*let index = state.findIndex(({ id }) => id === action.payload.id);
-				state.splice(index, 1);*/ console.log(action.payload);
+				let index = state.findIndex(({ id }) => id === action.payload.id);
+				state.splice(index, 1);
 			})
 			.addCase(createCourse.fulfilled, (state, action) => {
 				const todo = action.payload;

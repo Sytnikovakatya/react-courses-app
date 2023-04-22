@@ -5,7 +5,7 @@ const getCoursesAll = () => {
 };
 
 const remove = (id, token) => {
-	return axios.delete(`/courses/${id}`, id, {
+	return axios.delete(`/courses/${id}`, {
 		headers: {
 			Authorization: token,
 		},
