@@ -24,8 +24,8 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-import { addAuthor } from '../../state/authorsSlice';
 import { addCourse } from '../../state/coursesSlice';
+import { createAuthor } from '../../state/authorsSlice';
 
 export default function CourseForm() {
 	const { courseId } = useParams();
@@ -57,6 +57,10 @@ export default function CourseForm() {
 		);
 
 		setAuthorCourseList((prevState) => [...prevState, list]);
+		setAuthorList((prevState) => {
+			const idx = prevState.findIndex((item) => item.id === list.id);
+			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+		});
 		setCurrentCourse(courseUpdate);
 	};
 
@@ -71,7 +75,7 @@ export default function CourseForm() {
 			name: authorName,
 		};
 		setAuthorList((prevState) => [...prevState, newItem]);
-		dispatch(addAuthor(newItem));
+		dispatch(createAuthor(authorName));
 	};
 
 	const handleCourseList = (id) => {
