@@ -66,7 +66,12 @@ export default function CourseForm() {
 	const handleAddAuthor = (e) => {
 		e.preventDefault();
 
-		dispatch(createAuthor(authorName));
+		dispatch(createAuthor(authorName))
+			.unwrap()
+			.then((data) => {
+				const newAuthor = { id: data.id, name: authorName };
+				setAuthorList((prevState) => [...prevState, newAuthor]);
+			});
 	};
 
 	const handleCourseList = (id) => {
