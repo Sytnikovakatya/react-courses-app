@@ -51,21 +51,24 @@ export default function CourseForm() {
 
 	const getCourseUpdate = (courseId) => {
 		const courseUpdate = courses.find((course) => course.id === courseId);
-		const author = authorsList.find(
-			(author) => author.id === courseUpdate.authors[0]
+		const authors = courseUpdate.authors.map((courseAuthorId) =>
+			authorsList.find((author) => author.id === courseAuthorId)
 		);
-		setAuthorCourseList((prevState) => [...prevState, author]);
 
-		setAuthorList((prevState) => {
-			const idx = prevState.findIndex((item) => item.id === author.id);
-			return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+		authors.map((author) => {
+			return (
+				setAuthorCourseList((prevState) => [...prevState, author]),
+				setAuthorList((prevState) => {
+					const idx = prevState.findIndex((item) => item.id === author.id);
+					return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+				})
+			);
 		});
 		setCurrentCourse(courseUpdate);
 	};
 
 	const handleAddAuthor = (e) => {
 		e.preventDefault();
-
 		dispatch(createAuthor(authorName))
 			.unwrap()
 			.then((data) => {
