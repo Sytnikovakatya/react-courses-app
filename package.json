@@ -38,7 +38,7 @@
     "eslint:fix": "eslint --fix --ext .js --ext .jsx src",
     "test:nowatch": "react-scripts test --watchAll=false",
     "prepare": "husky install",
-    "prepublish": "npm run eslint:fix"
+    "prepublish": "npm run eslint:fix && npm run test --transformIgnorePatterns \"node_modules/(?!axios)/\""
   },
   "eslintConfig": {
     "extends": [
