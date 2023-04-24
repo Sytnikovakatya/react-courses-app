@@ -13,7 +13,7 @@ import getTimeFromMins from '../../../../helpers/pipeDuration';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash, faPenToSquare } from '@fortawesome/free-solid-svg-icons';
 
-import { removeCourse } from '../../../../features/coursesSlice';
+import { deleteCourse } from '../../../../state/coursesSlice';
 
 export default function CourseCard({
 	id,
@@ -23,8 +23,11 @@ export default function CourseCard({
 	authors,
 	creationDate,
 }) {
-	const authorsList = useSelector((state) => state.authors);
 	const dispatch = useDispatch();
+
+	const authorsList = useSelector((state) => state.authors);
+	const { role } = useSelector((state) => state.user);
+
 	return (
 		<>
 			<Card bg='light shadow' className='p-4 m-5'>
@@ -37,7 +40,7 @@ export default function CourseCard({
 						<Card.Body>
 							<Card.Text className='text-truncate'>
 								<strong>Authors: </strong>
-								{getAuthorNames(authors, authorsList[0])}
+								{getAuthorNames(authors, authorsList)}
 							</Card.Text>
 							<Card.Text>
 								<strong>Duration: </strong>
@@ -50,14 +53,20 @@ export default function CourseCard({
 							<Link to={`/courses/${id}`}>
 								<Button text='Show course' />
 							</Link>
-							<Button
-								text={<FontAwesomeIcon icon={faTrash} />}
-								onClick={() => {
-									dispatch(removeCourse(id));
-								}}
-								type='submit'
-							/>
-							<Button text={<FontAwesomeIcon icon={faPenToSquare} />} />
+							{role === 'admin' && (
+								<span>
+									<Link to={`/courses/update/${id}`}>
+										<Button text={<FontAwesomeIcon icon={faPenToSquare} />} />
+									</Link>
+									<Button
+										text={<FontAwesomeIcon icon={faTrash} />}
+										onClick={() => {
+											dispatch(deleteCourse({ id }));
+										}}
+										type='submit'
+									/>
+								</span>
+							)}
 						</Card.Body>
 					</div>
 				</div>

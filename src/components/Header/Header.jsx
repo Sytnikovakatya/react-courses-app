@@ -4,12 +4,12 @@ import { useSelector } from 'react-redux';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
 
-import Logo from './components/Logo/Logo';
-import LogoutButton from '../Login/LogoutButton';
+import Logo from './components/Logo';
+import LogoutButton from './components/LogoutButton';
 
 export default function Header() {
-	const { user: currentUser } = useSelector((state) => state.auth);
-	const userData = JSON.parse(currentUser);
+	const { name: currentUser } = useSelector((state) => state.user);
+
 	return (
 		<>
 			<Navbar className='m-4 shadow-sm'>
@@ -21,7 +21,7 @@ export default function Header() {
 					{currentUser && (
 						<Navbar.Collapse className='justify-content-end'>
 							<Navbar.Text className='user-name me-3 fw-bold'>
-								{userData.user.name}
+								{currentUser}
 							</Navbar.Text>
 							<LogoutButton />
 						</Navbar.Collapse>

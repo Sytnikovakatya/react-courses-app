@@ -8,27 +8,24 @@ import Input from '../../common/Input/Input';
 import Form from 'react-bootstrap/Form';
 import { Container, InputGroup } from 'react-bootstrap';
 
-import { register } from '../../features/authenticationSlice';
-import { clearMessage } from '../../features/messageSlice';
+import { register } from '../../state/authenticationSlice';
+import { clearMessage } from '../../state/messageSlice';
 
 export default function Registration() {
+	const navigate = useNavigate();
+	const dispatch = useDispatch();
+
 	const [name, setUserName] = useState('');
 	const [email, setUserEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [successful, setSuccessful] = useState(false);
 
-	const navigate = useNavigate();
-
 	const { message } = useSelector((state) => state.message);
-	const dispatch = useDispatch();
-
-	useEffect(() => {
-		dispatch(clearMessage());
-	}, [dispatch]);
 
 	const submitRegistration = (e) => {
 		e.preventDefault();
 		setSuccessful(false);
+
 		dispatch(register({ name, email, password }))
 			.unwrap()
 			.then(() => {
@@ -39,6 +36,11 @@ export default function Registration() {
 				setSuccessful(false);
 			});
 	};
+
+	useEffect(() => {
+		dispatch(clearMessage());
+	}, [dispatch]);
+
 	return (
 		<>
 			<Container fluid='sm' className='w-50'>

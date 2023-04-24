@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, Navigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 
 import Form from 'react-bootstrap/Form';
@@ -8,22 +8,18 @@ import { Container, InputGroup } from 'react-bootstrap';
 import Button from '../../common/Button/Button';
 import Input from '../../common/Input/Input';
 
-import { login } from '../../features/authenticationSlice';
-import { clearMessage } from '../../features/messageSlice';
+import { login } from '../../state/authenticationSlice';
+import { clearMessage } from '../../state/messageSlice';
 
 export default function Login() {
 	const navigate = useNavigate();
-	const [email, setUserEmail] = useState('');
-	const [password, setPassword] = useState('');
-
-	const [loading, setLoading] = useState(false);
-	const { isLoggedIn } = useSelector((state) => state.auth);
-	const { message } = useSelector((state) => state.message);
 	const dispatch = useDispatch();
 
-	useEffect(() => {
-		dispatch(clearMessage());
-	}, [dispatch]);
+	const [email, setUserEmail] = useState('');
+	const [password, setPassword] = useState('');
+	const [loading, setLoading] = useState(false);
+
+	const { message } = useSelector((state) => state.message);
 
 	const submitLogin = (e) => {
 		e.preventDefault();
@@ -31,16 +27,15 @@ export default function Login() {
 			.unwrap()
 			.then(() => {
 				navigate('/courses');
-				window.location.reload();
 			})
 			.catch(() => {
 				setLoading(false);
 			});
 	};
 
-	if (isLoggedIn) {
-		return <Navigate to='/courses' />;
-	}
+	useEffect(() => {
+		dispatch(clearMessage());
+	}, [dispatch]);
 
 	return (
 		<>

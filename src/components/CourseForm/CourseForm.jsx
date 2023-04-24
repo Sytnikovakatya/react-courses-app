@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
-import { v4 as uuidv4 } from 'uuid';
-
-import './CreateCourse.css';
+import './CourseForm.css';
 
 import pipeDuration from '../../helpers/pipeDuration';
-import { dateGenerator } from '../../helpers/dateGenerator';
 import CourseAuthorList from './components/CourseAuthorList/CourseAuthorList';
 import { isFormValid, changeHandlerNumbers } from '../../helpers/isFormValid';
 
@@ -24,32 +21,60 @@ import {
 	ListGroup,
 } from 'react-bootstrap';
 
-import { addAuthor } from '../../features/authorsSlice';
-import { addCourse } from '../../features/coursesSlice';
+import { createCourse } from '../../state/coursesSlice';
+import { createAuthor } from '../../state/authorsSlice';
+import { updateCourse } from '../../state/coursesSlice';
 
-export default function CreateCourse() {
-	const authors = useSelector((state) => state.authors);
-
-	const [title, setTitle] = useState('');
-	const [description, setDescription] = useState('');
-	const [characterLimit] = useState(2);
-	const [duration, setDuration] = useState('0');
-
-	const [authorName, setAuthorName] = useState('');
-	const [authorsList, setAuthorList] = useState(authors[0]);
-	const [authorCourseList, setAuthorCourseList] = useState('');
-
+export default function CourseForm() {
 	const navigate = useNavigate();
 	const dispatch = useDispatch();
 
+	const { courseId } = useParams();
+
+	const courses = useSelector((state) => state.courses);
+	const authors = useSelector((state) => state.authors);
+
+	const [characterLimit] = useState(2);
+	const [authorName, setAuthorName] = useState('');
+	const [authorsList, setAuthorList] = useState(authors);
+	const [authorCourseList, setAuthorCourseList] = useState([]);
+
+	const initialCourseState = {
+		title: '',
+		description: '',
+		duration: '',
+		authors: [],
+	};
+
+	const [currentCourse, setCurrentCourse] = useState(initialCourseState);
+	const { title, description, duration } = currentCourse;
+
+	const getCourseUpdate = (courseId) => {
+		const courseUpdate = courses.find((course) => course.id === courseId);
+		const authors = courseUpdate.authors.map((courseAuthorId) =>
+			authorsList.find((author) => author.id === courseAuthorId)
+		);
+
+		authors.map((author) => {
+			return (
+				setAuthorCourseList((prevState) => [...prevState, author]),
+				setAuthorList((prevState) => {
+					const idx = prevState.findIndex((item) => item.id === author.id);
+					return [...prevState.slice(0, idx), ...prevState.slice(idx + 1)];
+				})
+			);
+		});
+		setCurrentCourse(courseUpdate);
+	};
+
 	const handleAddAuthor = (e) => {
 		e.preventDefault();
-		const newItem = {
-			id: uuidv4(),
-			name: authorName,
-		};
-		setAuthorList((prevState) => [...prevState, newItem]);
-		dispatch(addAuthor(newItem));
+		dispatch(createAuthor(authorName))
+			.unwrap()
+			.then((data) => {
+				const newAuthor = { id: data.id, name: authorName };
+				setAuthorList((prevState) => [...prevState, newAuthor]);
+			});
 	};
 
 	const handleCourseList = (id) => {
@@ -66,23 +91,56 @@ export default function CreateCourse() {
 		});
 	};
 
+	const handleInputChange = (event) => {
+		const { name, value } = event.target;
+		setCurrentCourse((state) => ({
+			...state,
+			[name]: value,
+		}));
+	};
+
+	const getCourseModel = () => {
+		const authors = authorCourseList.map((author) => {
+			return author.id;
+		});
+		const courseModel = {
+			title: title,
+			description: description,
+			duration: parseFloat(duration),
+			authors: authors,
+		};
+		return courseModel;
+	};
+
 	const submitCourse = () => {
 		if (isFormValid(description, title, duration, authorCourseList)) {
-			const authors = authorCourseList.map((author) => {
-				return author.id;
-			});
-			const courseModel = {
-				id: uuidv4(),
-				title: title,
-				description: description,
-				creationDate: dateGenerator(new Date()),
-				duration: duration,
-				authors: authors,
-			};
-			navigate('/courses');
-			dispatch(addCourse(courseModel));
+			dispatch(createCourse({ data: getCourseModel() }))
+				.unwrap()
+				.then(() => {
+					navigate('/courses');
+				});
 		}
 	};
+
+	const submitUpdating = () => {
+		if (isFormValid(description, title, duration, authorCourseList)) {
+			dispatch(
+				updateCourse({
+					id: currentCourse.id,
+					data: getCourseModel(),
+				})
+			)
+				.unwrap()
+				.then(() => {
+					navigate('/courses');
+				});
+		}
+	};
+
+	useEffect(() => {
+		if (courseId) getCourseUpdate(courseId);
+	}, [courseId]);
+
 	return (
 		<>
 			<Container className='create-course shadow'>
@@ -94,20 +152,28 @@ export default function CreateCourse() {
 								<Input
 									placeholder='Enter title'
 									labelText='text'
-									nameInput='Title'
+									nameInput='title'
 									id='title'
 									value={title}
-									onChange={(e) => setTitle(e.target.value)}
+									onChange={handleInputChange}
 									isInvalid={title.length < characterLimit}
 								/>
 							</InputGroup>
 						</Col>
 						<Col md={{ span: 3, offset: 4 }}>
-							<Button
-								text='Create course'
-								type='submit'
-								onClick={submitCourse}
-							/>
+							{courseId ? (
+								<Button
+									text='Update course'
+									type='submit'
+									onClick={submitUpdating}
+								/>
+							) : (
+								<Button
+									text='Create course'
+									type='submit'
+									onClick={submitCourse}
+								/>
+							)}
 							<Link to='/courses'>
 								<Button text='Close' type='submit' />
 							</Link>
@@ -122,8 +188,9 @@ export default function CreateCourse() {
 							>
 								<Form.Control
 									as='textarea'
+									name='description'
 									value={description}
-									onChange={(e) => setDescription(e.target.value)}
+									onChange={handleInputChange}
 									isInvalid={description.length < characterLimit}
 									placeholder='Enter description'
 									style={{ height: '100px' }}
@@ -178,10 +245,11 @@ export default function CreateCourse() {
 								<Input
 									placeholder='Enter duration in minutes...'
 									labelText='text'
-									nameInput='Duration'
+									nameInput='duration'
 									id='duration'
+									value={duration}
 									onInput={changeHandlerNumbers}
-									onChange={(e) => setDuration(e.target.value)}
+									onChange={handleInputChange}
 								/>
 							</InputGroup>
 							<h3>Duration: {pipeDuration(duration)} hours</h3>

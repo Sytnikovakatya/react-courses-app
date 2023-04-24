@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 
@@ -10,17 +10,14 @@ import pipeDuration from '../../helpers/pipeDuration';
 import { getAuthorNames } from '../../helpers/getAuthorNames';
 
 export default function CourseInfo() {
-	const [course, setCourse] = useState([]);
-	const [authors, setAuthors] = useState([]);
 	const { courseId } = useParams();
 
 	const courses = useSelector((state) => state.courses);
 	const authorsList = useSelector((state) => state.authors);
-	useEffect(() => {
-		const courseShown = courses.find((course) => course.id === courseId);
-		setCourse(courseShown);
-		setAuthors(courseShown.authors);
-	}, [courses, courseId]);
+
+	const course = useMemo(() => {
+		return courses.find((course) => course.id === courseId);
+	}, [courseId, courses]);
 
 	return (
 		<>
@@ -48,7 +45,7 @@ export default function CourseInfo() {
 						</p>
 						<p>
 							<strong>Authors: </strong>
-							{getAuthorNames(authors, authorsList[0])}
+							{getAuthorNames(course.authors, authorsList)}
 						</p>
 					</Col>
 				</Row>
