@@ -15,7 +15,7 @@ export default function List({ searchBarInputValue }) {
 		: [];
 
 	return (
-		<section>
+		<section role='list'>
 			{filtredResult.map((course, id) => {
 				return (
 					<div key={id}>
