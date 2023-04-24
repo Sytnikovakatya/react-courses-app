@@ -14,7 +14,7 @@ export default function LogoutButton() {
 	const logOut = useCallback(() => {
 		dispatch(logout(token));
 		window.location.reload();
-	}, [dispatch]);
+	}, [dispatch, token]);
 
 	return (
 		<Link to='/login'>
