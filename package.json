@@ -36,9 +36,9 @@
     "eject": "react-scripts eject",
     "eslint": "eslint --ext .js --ext .jsx src",
     "eslint:fix": "eslint --fix --ext .js --ext .jsx src",
-    "test:nowatch": "react-scripts test --watchAll=false",
+    "test:nowatch": "react-scripts test --watchAll=false --transformIgnorePatterns \"node_modules/(?!axios)/\"",
     "prepare": "husky install",
-    "prepublish": "npm run eslint:fix && npm run test --transformIgnorePatterns \"node_modules/(?!axios)/\""
+    "prepublish": "npm run eslint:fix && npm run test:nowatch"
   },
   "eslintConfig": {
     "extends": [
