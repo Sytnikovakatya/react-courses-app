@@ -40,7 +40,7 @@ export default function CourseCard({
 						<Card.Body>
 							<Card.Text className='text-truncate'>
 								<strong>Authors: </strong>
-								{getAuthorNames(authors, authorsList)}
+								{authors && getAuthorNames(authors, authorsList)}
 							</Card.Text>
 							<Card.Text>
 								<strong>Duration: </strong>

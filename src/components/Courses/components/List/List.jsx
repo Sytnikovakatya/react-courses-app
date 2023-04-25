@@ -5,24 +5,26 @@ import { useSelector } from 'react-redux';
 export default function List({ searchBarInputValue }) {
 	const courses = useSelector((state) => state.courses);
 
-	const filtredResult = Array.isArray(courses)
+	const filtredResult = searchBarInputValue
 		? courses.filter((item) => {
 				return Object.values(item)
 					.join('')
 					.toLowerCase()
 					.includes(searchBarInputValue.toLowerCase());
 		  })
-		: [];
+		: courses;
 
 	return (
 		<section role='list'>
-			{filtredResult.map((course, id) => {
-				return (
-					<div key={id}>
-						<CourseCard {...course} />
-					</div>
-				);
-			})}
+			{filtredResult
+				? filtredResult.map((course, id) => {
+						return (
+							<div key={id}>
+								<CourseCard {...course} />
+							</div>
+						);
+				  })
+				: null}
 		</section>
 	);
 }
