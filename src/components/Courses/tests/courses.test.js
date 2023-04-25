@@ -1,7 +1,9 @@
 import React from 'react';
-import { fireEvent, render, screen, within } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+
+import { fireEvent, render, screen, within } from '@testing-library/react';
+
 import Courses from '../Courses';
 import { mockedCoursesList } from '../../../helpers/mockedCoursesList';
 

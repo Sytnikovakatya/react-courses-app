@@ -1,9 +1,10 @@
 import React from 'react';
-import { render, screen } from '@testing-library/react';
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
-import List from '../../List/List';
 
+import { render, screen } from '@testing-library/react';
+
+import List from '../../List/List';
 import { mockedAuthorsList } from '../../../../../helpers/mockedAuthorsList';
 
 const mockedState = {
@@ -26,6 +27,7 @@ const mockedState = {
 	],
 	authors: mockedAuthorsList,
 };
+
 const mockedStore = {
 	getState: () => mockedState,
 	subscribe: jest.fn(),

@@ -1,6 +1,8 @@
 import { render, screen } from '@testing-library/react';
+
 import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
+
 import Header from '../Header';
 
 const mockedState = {
