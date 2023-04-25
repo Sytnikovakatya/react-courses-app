@@ -28,3 +28,14 @@ test('Header should have logo and username', () => {
 	expect(screen.queryByText('Test Name')).toBeInTheDocument();
 	expect(screen.queryByAltText('logo of courses')).toBeInTheDocument();
 });
+
+test('Header snapshot', () => {
+	const header = render(
+		<Provider store={mockedStore}>
+			<BrowserRouter>
+				<Header />
+			</BrowserRouter>
+		</Provider>
+	);
+	expect(header).toMatchSnapshot();
+});
