@@ -30,7 +30,7 @@ export default function CourseCard({
 
 	return (
 		<>
-			<Card bg='light shadow' className='p-4 m-5'>
+			<Card bg='light shadow' className='p-4 m-5' role='listitem'>
 				<div className='row g-0'>
 					<div className='col-8 pe-5'>
 						<Card.Title>{title}</Card.Title>
@@ -40,7 +40,7 @@ export default function CourseCard({
 						<Card.Body>
 							<Card.Text className='text-truncate'>
 								<strong>Authors: </strong>
-								{getAuthorNames(authors, authorsList)}
+								{authors && getAuthorNames(authors, authorsList)}
 							</Card.Text>
 							<Card.Text>
 								<strong>Duration: </strong>
